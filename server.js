@@ -5,6 +5,7 @@
 /* ***********************
  * Require Statements
  *************************/
+const staticRoutes = require('./routes/static');
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
@@ -16,6 +17,11 @@ app.set("layout", "./layouts/layout") // not at views root
 /* ***********************
  * Routes
  *************************/
+app.use(staticRoutes);
+// Home page route
+app.get('/', function (req, res) {
+  res.render('index', { title: 'Home' });
+});
 app.use(static)
 
 /* ***********************
