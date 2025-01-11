@@ -1,39 +1,31 @@
-/* ******************************************
- * This server.js file is the primary file of the 
- * application. It is used to control the project.
- *******************************************/
-/* ***********************
- * Require Statements
- *************************/
-const staticRoutes = require('./routes/static');
-const express = require("express")
-const expressLayouts = require("express-ejs-layouts")
-const env = require("dotenv").config()
-const app = express()
-const static = require("./routes/static")
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
-/* ***********************
- * Routes
- *************************/
-app.use(staticRoutes);
-// Home page route
-app.get('/', function (req, res) {
-  res.render('index', { title: 'Home' });
+// Import required modules
+const express = require('express');
+const path = require('path');
+
+// Initialize the app
+const app = express();
+
+// Set the port
+const PORT = 5500;
+
+// Set EJS as the templating engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Route handler for the home page
+app.get('/', (req, res) => {
+  res.render('index');
 });
-app.use(static)
 
-/* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
-const port = process.env.PORT
-const host = process.env.HOST
+// Handle 404 errors (Page not found)
+app.use((req, res) => {
+  res.status(404).send('Page not found');
+});
 
-/* ***********************
- * Log statement to confirm server operation
- *************************/
-app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`)
-})
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
