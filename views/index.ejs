@@ -15,18 +15,18 @@
             <li>Superman doors</li>
             <li>Fuzzy dice!</li>
           </ul>
-          <button class="cta-button">Own Today</button>
+          <a href="#vehicle-gallery" class="cta-button">Own Today</a>
         </div>
         <div class="welcome-image">
-          <img
-            src="/images/site/delorean.png"
-            alt="DMC Delorean car with futuristic design"
+          <img 
+            src="/images/site/delorean.png" 
+            alt="DMC Delorean car with futuristic design" 
           />
         </div>
       </section>
 
       <!-- Vehicle Gallery Section -->
-      <section class="vehicle-gallery">
+      <section id="vehicle-gallery" class="vehicle-gallery">
         <h2>Explore Our Vehicles</h2>
         <div class="vehicle-grid">
           <% 
@@ -50,7 +50,10 @@
           %>
           <% vehicles.forEach((vehicle) => { %>
             <div class="vehicle-card">
-              <img src="/images/vehicle/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
+              <img 
+                src="/images/vehicle/<%= vehicle.image %>" 
+                alt="<%= vehicle.name %>" 
+              />
               <h3><%= vehicle.name %></h3>
             </div>
           <% }); %>
@@ -61,11 +64,11 @@
       <section class="reviews-section">
         <h2>DMC Delorean Reviews</h2>
         <ul class="reviews-list">
-          <li>"So fast it's almost like traveling in time." (4/5)</li>
-          <li>"Coolest ride on the road." (4/5)</li>
-          <li>"I'm feeling McFly!" (5/5)</li>
-          <li>"The most futuristic ride of our day." (4.5/5)</li>
-          <li>"80's livin and I love it!" (5/5)</li>
+          <li>"So fast it's almost like traveling in time." <span class="rating">(4/5)</span></li>
+          <li>"Coolest ride on the road." <span class="rating">(4/5)</span></li>
+          <li>"I'm feeling McFly!" <span class="rating">(5/5)</span></li>
+          <li>"The most futuristic ride of our day." <span class="rating">(4.5/5)</span></li>
+          <li>"80's livin and I love it!" <span class="rating">(5/5)</span></li>
         </ul>
       </section>
 
@@ -74,19 +77,31 @@
         <h2>Delorean Upgrades</h2>
         <div class="upgrades-grid">
           <div class="upgrade-item">
-            <img src="/images/upgrades/flux-capacitor.jpg" alt="Flux Capacitor" />
+            <img 
+              src="/images/upgrades/flux-capacitor.jpg" 
+              alt="Flux Capacitor upgrade for Delorean" 
+            />
             <p>Flux Capacitor</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/flame.jpg" alt="Flame Decals" />
+            <img 
+              src="/images/upgrades/flame.jpg" 
+              alt="Flame Decals for Delorean" 
+            />
             <p>Flame Decals</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers" />
+            <img 
+              src="/images/upgrades/bumper_sticker.jpg" 
+              alt="Custom Bumper Stickers for Delorean" 
+            />
             <p>Bumper Stickers</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps" />
+            <img 
+              src="/images/upgrades/hub-cap.jpg" 
+              alt="Hub Caps for Delorean" 
+            />
             <p>Hub Caps</p>
           </div>
         </div>
