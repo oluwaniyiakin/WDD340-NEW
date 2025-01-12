@@ -6,23 +6,32 @@ const path = require('path');
 const app = express();
 
 // Set the port
-const PORT = 5500;
+const PORT = process.env.PORT || 5500; // Use environment variable or default to 5500
 
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Serve static files from the 'public' directory
-app.use(express.static('public')); // Serve the public folder
+// Middleware to serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Route handler for the home page
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', { pageTitle: 'Home - CSE Motors' }); // Pass dynamic title
+});
+
+// Additional routes (e.g., About, Contact) for scalability
+app.get('/about', (req, res) => {
+  res.render('about', { pageTitle: 'About Us - CSE Motors' });
+});
+
+app.get('/contact', (req, res) => {
+  res.render('contact', { pageTitle: 'Contact Us - CSE Motors' });
 });
 
 // Handle 404 errors (Page not found)
 app.use((req, res) => {
-  res.status(404).send('Page not found');
+  res.status(404).render('404', { pageTitle: '404 - Page Not Found' }); // Render a custom 404 page
 });
 
 // Start the server

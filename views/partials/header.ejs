@@ -1,6 +1,28 @@
-<header class="main-header">
-  <div class="logo">
-    <img src="/images/site/icon.png" alt="Car Dealership Logo" />
-    <h1>Car Dealership</h1>
-  </div>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("partials/head") %>
+  <body>
+    <main>
+      <!-- Welcome Section -->
+      <section class="welcome-section">
+        <div class="welcome-content">
+          <h1>Welcome to CSE Motors!</h1>
+          <h2 class="highlight">DMC Delorean</h2>
+          <ul class="features-list">
+            <li>3 Cup holders</li>
+            <li>Superman doors</li>
+            <li>Fuzzy dice!</li>
+          </ul>
+          <button class="cta-button">Own Today</button>
+        </div>
+        <div class="welcome-image">
+          <img
+            src="/images/site/delorean.png"
+            alt="DMC Delorean car with futuristic design"
+          />
+        </div>
+      </section>
+    </main>
+    <%- include("partials/footer") %>
+  </body>
+</html>
