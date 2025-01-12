@@ -3,7 +3,7 @@
   <%- include('partials/head') %>
   <body>
     <%- include('partials/header') %>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style.css">
 
     <main>
       <!-- Welcome Section -->
@@ -22,7 +22,7 @@
           <img
             src="/images/site/icon.PMG"
             alt="DMC Delorean car with futuristic design"
-          />
+          >
         </div>
       </section>
 
@@ -33,7 +33,7 @@
           <% if (vehicles && vehicles.length > 0) { %>
             <% vehicles.forEach(vehicle => { %>
               <div class="vehicle-card">
-                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
+                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
                 <h3><%= vehicle.name %></h3>
               </div>
             <% }); %>
@@ -60,19 +60,19 @@
         <h2>Delorean Upgrades</h2>
         <div class="upgrades-grid">
           <div class="upgrade-item">
-            <img src="/images/upgrades/flux-capacitor.PNG" alt="Flux Capacitor" />
+            <img src="/images/upgrades/flux-capacitor.PNG" alt="Flux Capacitor">
             <p>Flux Capacitor</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/flame.jpg" alt="Flame Decals" />
+            <img src="/images/upgrades/flame.jpg" alt="Flame Decals">
             <p>Flame Decals</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers" />
+            <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers">
             <p>Bumper Stickers</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps" />
+            <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps">
             <p>Hub Caps</p>
           </div>
         </div>
