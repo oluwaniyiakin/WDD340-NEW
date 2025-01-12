@@ -4,8 +4,6 @@ const path = require('path');
 
 // Initialize the app
 const app = express();
-
-// Set the port
 const PORT = process.env.PORT || 5500; // Use environment variable or default to 5500
 
 // Set EJS as the templating engine
@@ -17,21 +15,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Vehicles Array (Mock Data)
 const vehicles = [
-  { name: "Adventador", image: "adventador.jpg" },
-  { name: "Aerocar", image: "aerocar.jpg" },
-  { name: "Batmobile", image: "batmobile.jpg" },
-  { name: "Camaro", image: "camaro.jpg" },
-  { name: "Crown Vic", image: "crwn-vic.jpg" },
-  { name: "Delorean", image: "delorean.jpg" },
-  { name: "Dog Car", image: "dog-car.jpg" },
-  { name: "Escalade", image: "escalade.jpg" },
-  { name: "Fire Truck", image: "fire-truck.jpg" },
-  { name: "Hummer", image: "hummer.jpg" },
-  { name: "Mechanic", image: "mechanic.jpg" },
-  { name: "Model T", image: "model-t.jpg" },
-  { name: "Monster Truck", image: "monster-truck.jpg" },
-  { name: "Mystery Van", image: "mystery-van.jpg" },
-  { name: "Wrangler", image: "wrangler.jpg" },
+  { name: 'Adventador', image: 'adventador.jpg' },
+  { name: 'Aerocar', image: 'aerocar.jpg' },
+  { name: 'Batmobile', image: 'batmobile.jpg' },
+  { name: 'Camaro', image: 'camaro.jpg' },
+  { name: 'Crown Vic', image: 'crwn-vic.jpg' },
+  { name: 'Delorean', image: 'delorean.jpg' },
+  { name: 'Dog Car', image: 'dog-car.jpg' },
+  { name: 'Escalade', image: 'escalade.jpg' },
+  { name: 'Fire Truck', image: 'fire-truck.jpg' },
+  { name: 'Hummer', image: 'hummer.jpg' },
+  { name: 'Mechanic', image: 'mechanic.jpg' },
+  { name: 'Model T', image: 'model-t.jpg' },
+  { name: 'Monster Truck', image: 'monster-truck.jpg' },
+  { name: 'Mystery Van', image: 'mystery-van.jpg' },
+  { name: 'Wrangler', image: 'wrangler.jpg' },
 ];
 
 // Route handler for the home page

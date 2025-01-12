@@ -19,7 +19,7 @@
         </div>
         <div class="welcome-image">
           <img
-            src="/images/site/delorean.png"
+            src="/images/site/delorean.jpg"
             alt="DMC Delorean car with futuristic design"
           />
         </div>
@@ -32,7 +32,7 @@
           <% if (vehicles && vehicles.length > 0) { %>
             <% vehicles.forEach(vehicle => { %>
               <div class="vehicle-card">
-                <img src="/images/vehicle/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
+                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
                 <h3><%= vehicle.name %></h3>
               </div>
             <% }); %>
@@ -81,5 +81,3 @@
     <%- include("partials/footer") %>
   </body>
 </html>
-
-
