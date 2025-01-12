@@ -4,7 +4,7 @@ const path = require('path');
 
 // Initialize the app
 const app = express();
-const PORT = process.env.PORT || 5500; // Use environment variable or default to 5500
+const PORT = process.env.PORT || 10000; // Default to 10000 if environment variable is not set
 
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
@@ -34,25 +34,25 @@ const vehicles = [
 
 // Route handler for the home page
 app.get('/', (req, res) => {
-  res.render('index', { pageTitle: 'Home - CSE Motors', vehicles }); // Pass vehicles and dynamic title
+  res.render('index', { title: 'Home - CSE Motors', vehicles }); // Pass vehicles and dynamic title
 });
 
-// Additional routes (e.g., About, Contact) for scalability
+// Route handler for the about page
 app.get('/about', (req, res) => {
-  res.render('about', { pageTitle: 'About Us - CSE Motors' });
+  res.render('about', { title: 'About Us - CSE Motors' });
 });
 
+// Route handler for the contact page
 app.get('/contact', (req, res) => {
-  res.render('contact', { pageTitle: 'Contact Us - CSE Motors' });
+  res.render('contact', { title: 'Contact Us - CSE Motors' });
 });
 
 // Handle 404 errors (Page not found)
 app.use((req, res) => {
-  res.status(404).render('404', { pageTitle: '404 - Page Not Found' });
+  res.status(404).render('404', { title: '404 - Page Not Found' });
 });
 
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-console.log(path.join(__dirname, 'views'));
