@@ -7,11 +7,23 @@
     <%- include('partials/header') %>
 
     <main>
+      <!-- Navigation Section -->
+      <header class="main-header">
+        <h1>HOME</h1>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
       <!-- Welcome Section -->
       <section class="welcome-section">
         <div class="welcome-content">
-          <h1>Welcome to CSE Motors!</h1>
-          <h2 class="highlight">DMC Delorean</h2>
+          <h2>Welcome to CSE Motors!</h2>
+          <h3 class="highlight">DMC Delorean</h3>
           <ul class="features-list">
             <li>3 Cup holders</li>
             <li>Superman doors</li>
@@ -23,18 +35,18 @@
           <img
             src="/images/site/icon.PMG"
             alt="DMC Delorean with futuristic design and doors open"
-          >
+          />
         </div>
       </section>
 
       <!-- Vehicle Gallery Section -->
-      <section class="vehicle-gallery">
+      <section class="vehicle-gallery" id="vehicles">
         <h2>Explore Our Vehicles</h2>
         <div class="vehicle-grid">
           <% if (vehicles && vehicles.length > 0) { %>
             <% vehicles.forEach(vehicle => { %>
               <div class="vehicle-card">
-                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
+                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
                 <h3><%= vehicle.name %></h3>
               </div>
             <% }); %>
@@ -44,45 +56,27 @@
         </div>
       </section>
 
-      <!-- Delorean Reviews Section -->
-      <section class="reviews-section">
-        <h2>DMC Delorean Reviews</h2>
-        <ul class="reviews-list">
-          <li>"So fast it's almost like traveling in time." (4/5)</li>
-          <li>"Coolest ride on the road." (4/5)</li>
-          <li>"I'm feeling McFly!" (5/5)</li>
-          <li>"The most futuristic ride of our day." (4.5/5)</li>
-          <li>"80's livin and I love it!" (5/5)</li>
-        </ul>
-      </section>
-
       <!-- Delorean Upgrades Section -->
       <section class="upgrades-section">
         <h2>Delorean Upgrades</h2>
         <div class="upgrades-grid">
           <div class="upgrade-item">
-            <img src="/images/upgrades/flux-capacitor.PNG" alt="Upgrade: Flux Capacitor">
+            <img src="/images/upgrades/flux-capacitor.PNG" alt="Flux Capacitor Upgrade">
             <p>Flux Capacitor</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/flame.jpg" alt="Upgrade: Flame Decals">
+            <img src="/images/upgrades/flame.jpg" alt="Flame Decals Upgrade">
             <p>Flame Decals</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/bumper_sticker.jpg" alt="Upgrade: Bumper Stickers">
+            <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Sticker Upgrade">
             <p>Bumper Stickers</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/hub-cap.jpg" alt="Upgrade: Hub Caps">
+            <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps Upgrade">
             <p>Hub Caps</p>
           </div>
         </div>
-      </section>
-
-      <!-- Dealership Message -->
-      <section class="dealership-message">
-        <h2>Welcome to Our Dealership</h2>
-        <p>Explore our collection of cars and vehicles.</p>
       </section>
     </main>
 
