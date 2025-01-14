@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <main>
+      <header class="page-header">
+        <h1>Contact Us</h1>
+      </header>
+
+      <section class="contact-section">
+        <div class="contact-info">
+          <h2>Get in Touch</h2>
+          <p>We'd love to hear from you! Whether you have a question, feedback, or need support, feel free to reach out.</p>
+          <ul>
+            <li><strong>Address:</strong> 1234 CSE Motors Drive, Lagos, Nigeria</li>
+            <li><strong>Phone:</strong> +234-701-234-5678</li>
+            <li><strong>Email:</strong> support@csemotors.com</li>
+          </ul>
+        </div>
+        <div class="contact-form">
+          <h2>Send Us a Message</h2>
+          <form action="/submit-contact-form" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required placeholder="Your Name">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Your Email">
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Your Message"></textarea>
+
+            <button type="submit" class="cta-button">Send Message</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

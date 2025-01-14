@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <main>
+      <header class="page-header">
+        <h1>About Us</h1>
+      </header>
+
+      <section class="about-section">
+        <div class="about-content">
+          <h2>Our Story</h2>
+          <p>
+            At CSE Motors, we are passionate about revolutionizing the way you experience the road. 
+            Since our inception, we’ve been dedicated to providing top-tier vehicles and upgrades 
+            that combine cutting-edge technology with timeless design.
+          </p>
+          <h2>Our Mission</h2>
+          <p>
+            To inspire confidence and excitement through our innovative products and exceptional service. 
+            From classic designs to futuristic upgrades, we aim to meet the needs of every driver.
+          </p>
+        </div>
+        <div class="about-image">
+          <img
+            src="/images/site/about_us.jpg"
+            alt="CSE Motors team working on a car"
+          />
+        </div>
+      </section>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>
