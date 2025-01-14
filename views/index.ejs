@@ -20,7 +20,7 @@
       </header>
 
       <!-- Welcome Section -->
-      <section class="welcome-section">
+      <section id="home" class="welcome-section">
         <div class="welcome-content">
           <h2>Welcome to CSE Motors!</h2>
           <h3 class="highlight">DMC Delorean</h3>
@@ -32,10 +32,7 @@
           <button class="cta-button">Own Today</button>
         </div>
         <div class="welcome-image">
-          <img
-            src="/images/site/icon.PMG"
-            alt="DMC Delorean with futuristic design and doors open"
-          />
+          <img src="/images/site/icon.PMG" alt="DMC Delorean with futuristic design and doors open">
         </div>
       </section>
 
@@ -46,7 +43,7 @@
           <% if (vehicles && vehicles.length > 0) { %>
             <% vehicles.forEach(vehicle => { %>
               <div class="vehicle-card">
-                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
+                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
                 <h3><%= vehicle.name %></h3>
               </div>
             <% }); %>
@@ -57,7 +54,7 @@
       </section>
 
       <!-- Delorean Upgrades Section -->
-      <section class="upgrades-section">
+      <section id="about" class="upgrades-section">
         <h2>Delorean Upgrades</h2>
         <div class="upgrades-grid">
           <div class="upgrade-item">
@@ -80,6 +77,8 @@
       </section>
     </main>
 
-    <%- include('partials/footer') %>
+    <footer id="contact">
+      <p>Contact Us at CSE Motors!</p>
+    </footer>
   </body>
 </html>
