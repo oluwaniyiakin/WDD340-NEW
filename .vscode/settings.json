@@ -1,0 +1,36 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true
+                }
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "driver": "CockroachDB",
+            "name": "render",
+            "connectString": "postgresql://cse340_database_izqj_user:uSzC20kLoiuu8ZNVHkf5QKP7Ajtpdi30@dpg-cu4dki8gph6c739np2j0-a.oregon-postgres.render.com/cse340_database_izqj"
+        },
+        {
+            "previewLimit": 50,
+            "server": "dpg-cu4dki8gph6c739np2j0-a.oregon-postgres.render.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "cse340 Database",
+            "database": "cse340_database_izqj",
+            "username": "cse340_database_izqj_user",
+            "password": "uSzC20kLoiuu8ZNVHkf5QKP7Ajtpdi30"
+        },
+        {
+            "previewLimit": 50,
+            "server": "dpg-cu4dki8gph6c739np2j0-a.oregon-postgres.render.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "cse340 Database1",
+            "database": "cse340_database_izqj",
+            "username": "cse340_database_izqj_user",
+            "password": ""
+        }
+    ]
+}
