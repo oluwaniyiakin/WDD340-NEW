@@ -1,84 +1,59 @@
 // Import required modules
 const express = require('express');
 const path = require('path');
-
-// Require the inventory route file
-const inventoryRoute = require('./routes/inventoryRoute'); // Adjust the path if the file is in a different folder
-
-// Require utilities
-const utilities = require('./utilities/'); // Load utilities (assuming index.js in utilities)
-
-// Require controllers
-const baseController = require('./controllers/baseController'); // Adjust the path if necessary
-
-// Initialize the app
 const app = express();
-const PORT = process.env.PORT || 10000; // Default to 10000 if environment variable is not set
+const PORT = 5500;
 
-// Set EJS as the templating engine
+// Mock utility function for navigation bar (Updated to return an array of objects)
+const utilities = {
+  getNav: async () => [
+    { name: 'Home', link: '/' },
+    { name: 'About', link: '/about' },
+  ],
+};
+
+// Set view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middleware to serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Middleware to parse JSON requests
+app.use(express.json());
 
-// Vehicles Array (Mock Data)
-const vehicles = [
-  { name: 'Adventador', image: 'adventador.jpg' },
-  { name: 'Aerocar', image: 'aerocar.jpg' },
-  { name: 'Batmobile', image: 'batmobile.jpg' },
-  { name: 'Camaro', image: 'camaro.jpg' },
-  { name: 'Crown Vic', image: 'crwn-vic.jpg' },
-  { name: 'Delorean', image: 'delorean.jpg' },
-  { name: 'Dog Car', image: 'dog-car.jpg' },
-  { name: 'Escalade', image: 'escalade.jpg' },
-  { name: 'Fire Truck', image: 'fire-truck.jpg' },
-  { name: 'Hummer', image: 'hummer.jpg' },
-  { name: 'Mechanic', image: 'mechanic.jpg' },
-  { name: 'Model T', image: 'model-t.jpg' },
-  { name: 'Monster Truck', image: 'monster-truck.jpg' },
-  { name: 'Mystery Van', image: 'mystery-van.jpg' },
-  { name: 'Wrangler', image: 'wrangler.jpg' },
-];
-
-// Routes
-// Index route
-app.get('/', utilities.handleErrors(baseController.buildHome));
-
-// About page route
-app.get('/about', (req, res) => {
-  res.render('about', { title: 'About Us - CSE Motors' });
+// Route for Home page
+app.get('/', async (req, res) => {
+  const nav = await utilities.getNav();
+  res.render('index', { title: 'Homepage - CSE Motors', nav });
 });
 
-// Contact page route
-app.get('/contact', (req, res) => {
-  res.render('contact', { title: 'Contact Us - CSE Motors' });
+// Route for About page
+app.get('/about', async (req, res) => {
+  const nav = await utilities.getNav();
+  res.render('about', { title: 'About Us - CSE Motors', nav });
 });
 
-// Inventory routes
-app.use('/inv', inventoryRoute);
-
-// Handle 404 errors (Page not found)
-app.use((req, res) => {
-  res.status(404).render('404', { title: '404 - Page Not Found' });
+// Catch-all route for handling 404 errors
+app.use((req, res, next) => {
+  const err = { status: 404, message: 'Sorry, we appear to have lost that page.' };
+  next(err);
 });
 
-/* ***********************
-* Express Error Handler
-* Place after all other middleware
-*************************/
+// Error-handling middleware (must be placed after all routes/middleware)
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
-  res.render("errors/error", {
-    title: err.status || 'Server Error',
-    message,
-    nav
-  })
-})
+  // Fetch navigation links for error pages
+  const nav = await utilities.getNav();
+  
+  // Log the error for debugging
+  console.error(`Error at "${req.originalUrl}": ${err.message}`);
+  
+  // Render the error page with a message
+  res.status(err.status || 500).render('error', {
+    title: err.status === 404 ? 'Page Not Found' : 'Server Error',
+    message: err.message || 'An unexpected error occurred. Please try again later.',
+    nav,
+  });
+});
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
