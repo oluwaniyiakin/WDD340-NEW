@@ -3,9 +3,7 @@
 // Define the Util object
 const Util = {};
 
-/* **************************************
- * Build the classification view HTML
- * ************************************ */
+// Build the classification view HTML
 Util.buildClassificationGrid = async function (data) {
   let grid = ""; // Initialize grid to an empty string
   if (data.length > 0) {
@@ -56,44 +54,18 @@ Util.buildClassificationGrid = async function (data) {
   }
   return grid;
 };
-/* ****************************************
- * Middleware For Handling Errors
- * Wrap other function in this for 
- * General Error Handling
- **************************************** */
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+// Middleware For Handling Errors
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
+
+// Define the getNav function for navigation
+Util.getNav = async function() {
+    return [
+        { name: "Home", link: "/" },
+        { name: "About", link: "/about" },
+        { name: "Contact", link: "/contact" }
+    ];
+};
+
 // Export the Util object
 module.exports = Util;
-
-function buildVehicleHTML(vehicle) {
-    const price = vehicle.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    const miles = vehicle.mileage.toLocaleString();
-    return `
-        <div class="vehicle-detail">
-            <img src="${vehicle.full_image}" alt="Image of ${vehicle.make} ${vehicle.model}">
-            <div>
-                <h2>${vehicle.make} ${vehicle.model} (${vehicle.year})</h2>
-                <p>Price: ${price}</p>
-                <p>Mileage: ${miles} miles</p>
-                <p>${vehicle.description}</p>
-            </div>
-        </div>
-    `;
-}
-
-module.exports = { buildVehicleHTML };
-const handleErrors = (controllerFunction) => {
-    return async (req, res, next) => {
-      try {
-        await controllerFunction(req, res, next);
-      } catch (error) {
-        next(error); // Passes the error to the middleware
-      }
-    };
-  };
-  
-  module.exports = {
-    handleErrors,
-    // Include other utilities here, if any
-  };
-  
