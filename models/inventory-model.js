@@ -28,4 +28,13 @@ async function getInventoryByClassificationId(classification_id) {
       console.error("getclassificationsbyid error " + error)
     }
   }
+  const pool = require('../database/'); // Database connection
+
+  async function getVehicleById(invId) {
+      const sql = `SELECT * FROM inventory WHERE inv_id = $1`; // Parameterized query
+      const data = await pool.query(sql, [invId]);
+      return data.rows[0]; // Return first row
+  }
   
+  module.exports = { getVehicleById };
+    

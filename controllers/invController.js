@@ -21,3 +21,27 @@ invCont.buildByClassificationId = async function (req, res, next) {
 
 
 module.exports = invCont
+
+const inventoryModel = require('../models/inventory-model');
+const utilities = require('../utilities/');
+
+// Controller function to get vehicle detail
+async function getVehicleDetail(req, res, next) {
+    const invId = req.params.inv_id;
+    try {
+        const vehicleData = await inventoryModel.getVehicleById(invId); // Calls the model
+        if (vehicleData) {
+            const viewHTML = utilities.buildVehicleHTML(vehicleData); // Formats HTML
+            res.render('inventory/vehicle-detail', { 
+                title: `${vehicleData.make} ${vehicleData.model}`,
+                viewHTML,
+            });
+        } else {
+            next(); // Pass to 404 handler if not found
+        }
+    } catch (error) {
+        next(error); // Handle other errors
+    }
+}
+
+module.exports = { getVehicleDetail };

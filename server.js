@@ -5,6 +5,12 @@ const path = require('path');
 // Require the inventory route file
 const inventoryRoute = require('./routes/inventoryRoute'); // Adjust the path if the file is in a different folder
 
+// Require utilities
+const utilities = require('./utilities/'); // Load utilities (assuming index.js in utilities)
+
+// Require controllers
+const baseController = require('./controllers/baseController'); // Adjust the path if necessary
+
 // Initialize the app
 const app = express();
 const PORT = process.env.PORT || 10000; // Default to 10000 if environment variable is not set
@@ -35,17 +41,16 @@ const vehicles = [
   { name: 'Wrangler', image: 'wrangler.jpg' },
 ];
 
-// Route handler for the home page
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Home - CSE Motors', vehicles }); // Pass vehicles and dynamic title
-});
+// Routes
+// Index route
+app.get('/', utilities.handleErrors(baseController.buildHome));
 
-// Route handler for the about page
+// About page route
 app.get('/about', (req, res) => {
   res.render('about', { title: 'About Us - CSE Motors' });
 });
 
-// Route handler for the contact page
+// Contact page route
 app.get('/contact', (req, res) => {
   res.render('contact', { title: 'Contact Us - CSE Motors' });
 });
@@ -57,6 +62,21 @@ app.use('/inv', inventoryRoute);
 app.use((req, res) => {
   res.status(404).render('404', { title: '404 - Page Not Found' });
 });
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
+  res.render("errors/error", {
+    title: err.status || 'Server Error',
+    message,
+    nav
+  })
+})
 
 // Start the server
 app.listen(PORT, () => {

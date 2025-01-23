@@ -56,6 +56,29 @@ Util.buildClassificationGrid = async function (data) {
   }
   return grid;
 };
-
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 // Export the Util object
 module.exports = Util;
+
+function buildVehicleHTML(vehicle) {
+    const price = vehicle.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    const miles = vehicle.mileage.toLocaleString();
+    return `
+        <div class="vehicle-detail">
+            <img src="${vehicle.full_image}" alt="Image of ${vehicle.make} ${vehicle.model}">
+            <div>
+                <h2>${vehicle.make} ${vehicle.model} (${vehicle.year})</h2>
+                <p>Price: ${price}</p>
+                <p>Mileage: ${miles} miles</p>
+                <p>${vehicle.description}</p>
+            </div>
+        </div>
+    `;
+}
+
+module.exports = { buildVehicleHTML };
