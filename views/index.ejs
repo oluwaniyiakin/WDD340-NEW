@@ -9,7 +9,7 @@
     <main>
       <!-- Navigation Section -->
       <header class="main-header">
-        <h1>HOME</h1>
+        <h1>Welcome to CSE Motors</h1>
         <nav>
           <ul class="nav-links">
             <li><a href="#home">Home</a></li>
@@ -30,7 +30,7 @@
           </ul>
         </div>
         <div class="welcome-image">
-          <img src="/images/site/icon.PMG" alt="DMC Delorean with futuristic design and doors open">
+          <img src="/images/site/icon.png" alt="DMC Delorean with futuristic design and doors open">
         </div>
       </section>
 
@@ -41,8 +41,9 @@
           <% if (vehicles && vehicles.length > 0) { %>
             <% vehicles.forEach(vehicle => { %>
               <div class="vehicle-card">
-                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
+                <img src="/images/vehicles/<%= vehicle.image %>" alt="Image of <%= vehicle.name %>">
                 <h3><%= vehicle.name %></h3>
+                <p><%= vehicle.description || 'No description available' %></p>
               </div>
             <% }); %>
           <% } else { %>
@@ -56,7 +57,7 @@
         <h2>Delorean Upgrades</h2>
         <div class="upgrades-grid">
           <div class="upgrade-item">
-            <img src="/images/upgrades/flux-capacitor.PNG" alt="Flux Capacitor Upgrade">
+            <img src="/images/upgrades/flux-capacitor.png" alt="Flux Capacitor Upgrade">
             <p>Flux Capacitor</p>
           </div>
           <div class="upgrade-item">
