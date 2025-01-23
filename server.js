@@ -2,6 +2,9 @@
 const express = require('express');
 const path = require('path');
 
+// Require the inventory route file
+const inventoryRoute = require('./routes/inventory'); // Adjust the path if the file is in a different folder
+
 // Initialize the app
 const app = express();
 const PORT = process.env.PORT || 10000; // Default to 10000 if environment variable is not set
@@ -46,6 +49,9 @@ app.get('/about', (req, res) => {
 app.get('/contact', (req, res) => {
   res.render('contact', { title: 'Contact Us - CSE Motors' });
 });
+
+// Inventory routes
+app.use('/inv', inventoryRoute);
 
 // Handle 404 errors (Page not found)
 app.use((req, res) => {
