@@ -82,3 +82,18 @@ function buildVehicleHTML(vehicle) {
 }
 
 module.exports = { buildVehicleHTML };
+const handleErrors = (controllerFunction) => {
+    return async (req, res, next) => {
+      try {
+        await controllerFunction(req, res, next);
+      } catch (error) {
+        next(error); // Passes the error to the middleware
+      }
+    };
+  };
+  
+  module.exports = {
+    handleErrors,
+    // Include other utilities here, if any
+  };
+  
