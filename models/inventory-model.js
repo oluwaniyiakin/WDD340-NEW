@@ -1,40 +1,37 @@
-const pool = require("../database");
+const pool = require('../database/'); // Database connection
+
+const inventoryModel = {};
 
 /* ***************************
- *  Get all classification data
+ *  Get Inventory by Classification ID
  * ************************** */
-async function getClassifications() {
-    return await pool.query("SELECT * FROM public.classification ORDER BY classification_name");
-}
-
-module.exports = { getClassifications };
-
-
+inventoryModel.getInventoryByClassificationId = async function (classification_id) {
+  try {
+    const sql = `
+      SELECT * FROM inventory 
+      WHERE classification_id = $1`;
+    const result = await pool.query(sql, [classification_id]);
+    return result.rows;
+  } catch (error) {
+    console.error("Error in getInventoryByClassificationId:", error);
+    throw error;
+  }
+};
 
 /* ***************************
- *  Get all inventory items and classification_name by classification_id
+ *  Get Vehicle by Inventory ID
  * ************************** */
-async function getInventoryByClassificationId(classification_id) {
-    try {
-      const data = await pool.query(
-        `SELECT * FROM public.inventory AS i 
-        JOIN public.classification AS c 
-        ON i.classification_id = c.classification_id 
-        WHERE i.classification_id = $1`,
-        [classification_id]
-      )
-      return data.rows
-    } catch (error) {
-      console.error("getclassificationsbyid error " + error)
-    }
+inventoryModel.getVehicleById = async function (invId) {
+  try {
+    const sql = `
+      SELECT * FROM inventory 
+      WHERE inv_id = $1`;
+    const result = await pool.query(sql, [invId]);
+    return result.rows[0]; // Return only the first matching vehicle
+  } catch (error) {
+    console.error("Error in getVehicleById:", error);
+    throw error;
   }
-  const pool = require('../database/'); // Database connection
+};
 
-  async function getVehicleById(invId) {
-      const sql = `SELECT * FROM inventory WHERE inv_id = $1`; // Parameterized query
-      const data = await pool.query(sql, [invId]);
-      return data.rows[0]; // Return first row
-  }
-  
-  module.exports = { getVehicleById };
-    
+module.exports = inventoryModel;
