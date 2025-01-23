@@ -22,15 +22,15 @@
       <!-- Welcome Section -->
       <section id="home" class="welcome-section">
         <div class="welcome-content">
-          <h2>Welcome to CSE Motors!</h2>
+          <h2>Your One-Stop Automotive Hub!</h2>
           <ul class="features-list">
-            <li>3 Cup holders</li>
-            <li>Superman doors</li>
-            <li>Fuzzy dice!</li>
+            <li>✔ 3 Cup Holders</li>
+            <li>✔ Superman Doors</li>
+            <li>✔ Fuzzy Dice!</li>
           </ul>
         </div>
         <div class="welcome-image">
-          <img src="/images/site/icon.png" alt="DMC Delorean with futuristic design and doors open">
+          <img src="/images/site/icon.png" alt="CSE Motors logo with a futuristic vehicle design">
         </div>
       </section>
 
@@ -41,13 +41,17 @@
           <% if (vehicles && vehicles.length > 0) { %>
             <% vehicles.forEach(vehicle => { %>
               <div class="vehicle-card">
-                <img src="/images/vehicles/<%= vehicle.image %>" alt="Image of <%= vehicle.name %>">
+                <img 
+                  src="/images/vehicles/<%= vehicle.image %>" 
+                  alt="Image of <%= vehicle.name %>" 
+                  loading="lazy"
+                >
                 <h3><%= vehicle.name %></h3>
-                <p><%= vehicle.description || 'No description available' %></p>
+                <p><%= vehicle.description || 'Stay tuned for details about this amazing vehicle!' %></p>
               </div>
             <% }); %>
           <% } else { %>
-            <p>No vehicles available at the moment. Check back later!</p>
+            <p>No vehicles available at the moment. Please check back later!</p>
           <% } %>
         </div>
       </section>
@@ -57,19 +61,19 @@
         <h2>Delorean Upgrades</h2>
         <div class="upgrades-grid">
           <div class="upgrade-item">
-            <img src="/images/upgrades/flux-capacitor.png" alt="Flux Capacitor Upgrade">
+            <img src="/images/upgrades/flux-capacitor.png" alt="Image of Flux Capacitor Upgrade" loading="lazy">
             <p>Flux Capacitor</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/flame.jpg" alt="Flame Decals Upgrade">
+            <img src="/images/upgrades/flame.jpg" alt="Flame Decals Upgrade" loading="lazy">
             <p>Flame Decals</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Sticker Upgrade">
+            <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers Upgrade" loading="lazy">
             <p>Bumper Stickers</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps Upgrade">
+            <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps Upgrade" loading="lazy">
             <p>Hub Caps</p>
           </div>
         </div>
@@ -77,7 +81,9 @@
     </main>
 
     <footer id="contact">
-      <p>Contact Us at CSE Motors!</p>
+      <h2>Contact Us</h2>
+      <p>Email us at <a href="mailto:info@csemotors.com">info@csemotors.com</a> or call us at (555)-CSE-MOTO.</p>
+      <p>Stay connected with CSE Motors for the latest updates!</p>
     </footer>
   </body>
 </html>

@@ -4,10 +4,7 @@ const path = require('path');
 const app = express();
 const PORT = 5500;
 
-// Import the vehicle model to fetch vehicle data
-const Vehicle = require('./models/inventory-model');
-
-// Mock utility function for navigation bar (Updated to return an array of objects)
+// Mock utility function for navigation bar
 const utilities = {
   getNav: async () => [
     { name: 'Home', link: '/' },
@@ -15,6 +12,26 @@ const utilities = {
     { name: 'Contact', link: '/contact' },
   ],
 };
+
+// Mock data for vehicles
+const vehicles = [
+  { name: 'Adventador', image: 'adventador.JPG', description: 'Luxury at its finest.' },
+  { name: 'AeroCar', image: 'aerocar.JPG', description: 'A blend of car and plane!' },
+  { name: 'Batmobile', image: 'batmobile.JPG', description: 'Justice delivered in style.' },
+  { name: 'Camaro', image: 'camaro.JPG', description: 'Muscle and power combined.' },
+  { name: 'Crown Victoria', image: 'crwn-vic.JPG', description: 'Classic style.' },
+  { name: 'Delorean', image: 'delorean.JPG', description: 'Travel back to the future.' },
+  { name: 'Dog Car', image: 'dog-car.JPG', description: 'Quirky and fun transportation.' },
+  { name: 'Escalade', image: 'escalade.JPG', description: 'The essence of luxury SUVs.' },
+  { name: 'Fire Truck', image: 'fire-truck.JPG', description: 'For heroes in action.' },
+  { name: 'Hummer', image: 'hummer.JPG', description: 'Bold and strong.' },
+  { name: 'Mechanic', image: 'mechanic.JPG', description: 'Ready for service.' },
+  { name: 'Model T', image: 'model-t.JPG', description: 'A timeless classic.' },
+  { name: 'Monster Truck', image: 'monster-truck.JPG', description: 'Big wheels for big fun.' },
+  { name: 'Mystery Van', image: 'mystery-van.JPG', description: 'Uncovering secrets on the road.' },
+  { name: 'Survan', image: 'survan.JPG', description: 'Spacious and family-friendly.' },
+  { name: 'Wrangler', image: 'wrangler.JPG', description: 'Off-road adventures await.' },
+];
 
 // Set view engine and views directory
 app.set('view engine', 'ejs');
@@ -27,9 +44,8 @@ app.use(express.static(path.join(__dirname, 'public'))); // To serve static file
 // Route for Home page
 app.get('/', async (req, res) => {
   try {
-    // Fetch navigation and vehicle data
+    // Fetch navigation data
     const nav = await utilities.getNav();
-    const vehicles = await Vehicle.findAll(); // Assuming Vehicle.findAll() fetches all vehicles
 
     // Render the index.ejs page, passing title, nav, and vehicles data
     res.render('index', {
@@ -75,10 +91,7 @@ app.use((req, res, next) => {
 app.use(async (err, req, res, next) => {
   try {
     const nav = await utilities.getNav();
-    // Log the error for debugging
     console.error(`Error at "${req.originalUrl}": ${err.message}`);
-    
-    // Render the error page with an appropriate message
     res.status(err.status || 500).render('errors/error', {
       title: err.status === 404 ? 'Page Not Found' : 'Server Error',
       message: err.message || 'An unexpected error occurred. Please try again later.',
