@@ -1,15 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('../partials/head') %>
+  <%- include('../partials/head') %>  <!-- Include head partial -->
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
-    <%- include('../partials/header') %>
-    <main>
-        <div class="vehicle-container">
-            <%= content %>
-        </div>
-    </main>
-    <%- include('../partials/footer') %>
+
+  <!-- Include the header partial -->
+  <%- include('../partials/header') %>
+
+  <main class="vehicle-detail-main">
+    <div class="vehicle-details">
+      <!-- Vehicle Image Section -->
+      <div class="vehicle-image">
+        <img src="<%= vehicle.inv_image ? '/images/vehicles/' + vehicle.inv_image : '/images/placeholder.jpg' %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+      </div>
+
+      <!-- Vehicle Information Section -->
+      <div class="vehicle-info">
+        <h1><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h1>
+
+        <p><strong>Price:</strong> $<%= new Intl.NumberFormat('en-US').format(vehicle.inv_price) %></p>
+        <p><strong>Mileage:</strong> <%= new Intl.NumberFormat('en-US').format(vehicle.inv_mileage) %> miles</p>
+        <p><strong>Color:</strong> <%= vehicle.inv_color %></p>
+        <p><strong>Fuel Type:</strong> <%= vehicle.inv_fuel %></p>
+        <p><strong>Transmission:</strong> <%= vehicle.inv_transmission %></p>
+        <p><strong>Description:</strong> <%= vehicle.inv_description || 'No description available.' %></p>
+      </div>
+    </div>
+
+    <!-- Related Vehicle Section (optional) -->
+    <section class="related-vehicles">
+      <h2>Related Vehicles</h2>
+      <ul>
+        <% relatedVehicles.forEach(function(relatedVehicle) { %>
+          <li>
+            <a href="/inv/detail/<%= relatedVehicle.inv_id %>">
+              <img src="/images/vehicles/<%= relatedVehicle.inv_thumbnail %>" alt="<%= relatedVehicle.inv_make %> <%= relatedVehicle.inv_model %>">
+              <p><%= relatedVehicle.inv_make %> <%= relatedVehicle.inv_model %></p>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- Include the footer partial -->
+  <%- include('../partials/footer') %>
+
 </body>
 </html>
