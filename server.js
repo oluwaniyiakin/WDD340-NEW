@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 
 // Require the inventory route file
-const inventoryRoute = require('./routes/inventory'); // Adjust the path if the file is in a different folder
+const inventoryRoute = require('./routes/inventoryRoute'); // Adjust the path if the file is in a different folder
 
 // Initialize the app
 const app = express();
