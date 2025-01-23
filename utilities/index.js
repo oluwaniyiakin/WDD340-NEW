@@ -1,5 +1,3 @@
-// utilities/index.js
-
 // Define the Util object
 const Util = {};
 
@@ -55,17 +53,44 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
-// Middleware For Handling Errors
+// Middleware for handling errors
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 
 // Define the getNav function for navigation
 Util.getNav = async function() {
-    return [
-        { name: "Home", link: "/" },
-        { name: "About", link: "/about" },
-        { name: "Contact", link: "/contact" }
-    ];
+  return [
+    { name: "Home", link: "/" },
+    { name: "About", link: "/about" },
+    { name: "Contact", link: "/contact" }
+  ];
 };
 
-// Export the Util object
+// Wrap vehicle details in HTML for the detail view
+Util.wrapVehicleHTML = (vehicle) => {
+  // Format price and mileage
+  const formattedPrice = new Intl.NumberFormat("en-US", {
+    style: 'currency',
+    currency: 'USD'
+  }).format(vehicle.inv_price);
+
+  const formattedMileage = vehicle.inv_mileage.toLocaleString();
+
+  return `
+    <div class="vehicle-details">
+        <div class="vehicle-image">
+            <img src="/images/vehicles/${vehicle.inv_image}" alt="${vehicle.inv_make} ${vehicle.inv_model}">
+        </div>
+        <div class="vehicle-info">
+            <h1>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
+            <p><strong>Price:</strong> ${formattedPrice}</p>
+            <p><strong>Mileage:</strong> ${formattedMileage} miles</p>
+            <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+            <p><strong>Fuel Type:</strong> ${vehicle.inv_fueltype}</p>
+            <p><strong>Transmission:</strong> ${vehicle.inv_transmission}</p>
+            <p><strong>Description:</strong> ${vehicle.inv_description || 'No description available.'}</p>
+        </div>
+    </div>
+  `;
+};
+
 module.exports = Util;

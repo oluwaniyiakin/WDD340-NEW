@@ -1,5 +1,5 @@
-const invModel = require("../models/inventory-model");
-const utilities = require("../utilities/");
+const invModel = require('../models/inventory-model');
+const utilities = require('../utilities/index');
 
 const invCont = {};
 
@@ -14,7 +14,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
       const grid = await utilities.buildClassificationGrid(data);
       const nav = await utilities.getNav();
       const className = data[0].classification_name;
-      res.render("./inventory/classification", {
+      res.render('./inventory/classification', {
         title: `${className} Vehicles`,
         nav,
         grid,
@@ -28,25 +28,29 @@ invCont.buildByClassificationId = async function (req, res, next) {
 };
 
 /* ***************************
- *  Get vehicle details by inventory ID
+ *  Build vehicle detail view
  * ************************** */
-invCont.getVehicleDetail = async function (req, res, next) {
-  const invId = req.params.inv_id; // Get inventory ID from route parameters
+invCont.buildVehicleDetail = async function (req, res, next) {
+  const vehicleId = req.params.vehicleId; // Get vehicle ID from the route
   try {
-    const vehicleData = await invModel.getVehicleById(invId); // Fetch vehicle details
-    if (vehicleData) {
-      const viewHTML = utilities.buildVehicleHTML(vehicleData); // Generate HTML for vehicle
-      const nav = await utilities.getNav();
-      res.render("./inventory/vehicle-detail", {
-        title: `${vehicleData.make} ${vehicleData.model}`,
-        nav,
-        viewHTML,
-      });
-    } else {
-      next(); // Pass to 404 handler if not found
+    const vehicleData = await invModel.getVehicleById(vehicleId); // Fetch vehicle data
+
+    if (!vehicleData) {
+      const error = new Error('Vehicle not found');
+      error.status = 404;
+      return next(error);
     }
+
+    const vehicleHTML = utilities.wrapVehicleHTML(vehicleData); // Generate HTML for the vehicle
+    const nav = await utilities.getNav();
+
+    res.render('./inventory/vehicle-detail', {
+      title: `${vehicleData.year} ${vehicleData.make} ${vehicleData.model}`,
+      nav,
+      content: vehicleHTML, // Deliver the vehicle content
+    });
   } catch (error) {
-    next(error); // Handle other errors
+    next(error); // Pass error to error handler
   }
 };
 
