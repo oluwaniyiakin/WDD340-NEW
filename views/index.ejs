@@ -1,126 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-  <%- include('partials/head') %>
-=======
   <head>
-    <%- include('partials/head') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to CSE Motors</title>
+    <link rel="stylesheet" href="/css/styles.css">
   </head>
->>>>>>> 39100257826da5889ee4a12758262d45f4cf319e
   <body>
-    <%- include('partials/header') %>
-
-    <main>
-<<<<<<< HEAD
-      <!-- Welcome Section -->
-      <section class="welcome-section">
-        <h1>Welcome to CSE Motors!</h1>
-        <p>Your one-stop shop for classic and futuristic vehicles!</p>
-      </section>
-
-      <!-- Vehicles Gallery -->
-      <section class="gallery-section">
-        <h2>Our Vehicles</h2>
-        <div class="gallery-grid">
-          <% const vehicles = [
-            { name: "Adventador", image: "adventador.jpg" },
-            { name: "Aerocar", image: "aerocar.jpg" },
-            { name: "Batmobile", image: "batmobile.jpg" },
-            { name: "Camaro", image: "camaro.jpg" },
-            { name: "Crown Vic", image: "crwn-vic.jpg" },
-            { name: "Delorean", image: "delorean.jpg" },
-            { name: "Dog Car", image: "dog-car.jpg" },
-            { name: "Escalade", image: "escalade.jpg" },
-            { name: "Fire Truck", image: "fire-truck.jpg" },
-            { name: "Hummer", image: "hummer.jpg" },
-            { name: "Mechanic", image: "mechanic.jpg" },
-            { name: "Model T", image: "model-t.jpg" },
-            { name: "Monster Truck", image: "monster-truck.jpg" },
-            { name: "Mystery Van", image: "mystery-van.jpg" },
-            { name: "Wrangler", image: "wrangler.jpg" },
-          ]; %>
-          <% vehicles.forEach((vehicle) => { %>
-            <div class="vehicle-card">
-              <img src="/images/vehicle/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
-              <h3><%= vehicle.name %></h3>
-            </div>
-          <% }); %>
-=======
-      <!-- Navigation Section -->
-      <header class="main-header">
-        <h1>HOME</h1>
+    <!-- Header Section -->
+    <header class="main-header">
+      <div class="header-content">
+        <h1>CSE Motors</h1>
         <nav>
           <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
+            <li><a href="#vehicles">Vehicles</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </nav>
-      </header>
+      </div>
+    </header>
 
+    <!-- Main Content -->
+    <main>
       <!-- Welcome Section -->
       <section id="home" class="welcome-section">
         <div class="welcome-content">
           <h2>Welcome to CSE Motors!</h2>
-          <ul class="features-list">
-            <li>3 Cup holders</li>
-            <li>Superman doors</li>
-            <li>Fuzzy dice!</li>
-          </ul>
+          <p>Your one-stop shop for classic and futuristic vehicles. Explore our range today!</p>
         </div>
         <div class="welcome-image">
-          <img src="/images/site/icon.PMG" alt="DMC Delorean with futuristic design and doors open">
+          <img src="/images/site/icon.png" alt="Welcome to CSE Motors" />
         </div>
       </section>
 
-      <!-- Vehicle Gallery Section -->
-      <section class="vehicle-gallery" id="vehicles">
+      <!-- About Section -->
+      <section id="about" class="about-section">
+        <h2>About Us</h2>
+        <p>
+          At CSE Motors, we specialize in delivering classic and futuristic vehicles
+          to meet all your automotive needs. Check out our upgrades and features!
+        </p>
+      </section>
+
+      <!-- Vehicles Gallery -->
+      <section id="vehicles" class="gallery-section">
         <h2>Explore Our Vehicles</h2>
-        <div class="vehicle-grid">
-          <% if (vehicles && vehicles.length > 0) { %>
-            <% vehicles.forEach(vehicle => { %>
-              <div class="vehicle-card">
-                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
-                <h3><%= vehicle.name %></h3>
-              </div>
-            <% }); %>
-          <% } else { %>
-            <p>No vehicles available at the moment. Check back later!</p>
-          <% } %>
+        <div class="gallery-grid">
+          <% const vehicles = [
+            { name: "Adventador", image: "adventador.jpg", price: 75000 },
+            { name: "Aerocar", image: "aerocar.jpg", price: 100000 },
+            { name: "Batmobile", image: "batmobile.jpg", price: 120000 },
+            { name: "Camaro", image: "camaro.jpg", price: 30000 },
+          ]; %>
+          <% vehicles.forEach(vehicle => { %>
+            <div class="vehicle-card">
+              <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
+              <h3><%= vehicle.name %></h3>
+              <p>Price: $<%= vehicle.price.toLocaleString() %></p>
+              <a href="/inventory/detail/<%= vehicle.name.replace(' ', '-') %>" class="view-details">View Details</a>
+            </div>
+          <% }); %>
         </div>
       </section>
 
-      <!-- Delorean Upgrades Section -->
-      <section id="about" class="upgrades-section">
-        <h2>Delorean Upgrades</h2>
-        <div class="upgrades-grid">
-          <div class="upgrade-item">
-            <img src="/images/upgrades/flux-capacitor.PNG" alt="Flux Capacitor Upgrade">
-            <p>Flux Capacitor</p>
-          </div>
-          <div class="upgrade-item">
-            <img src="/images/upgrades/flame.jpg" alt="Flame Decals Upgrade">
-            <p>Flame Decals</p>
-          </div>
-          <div class="upgrade-item">
-            <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Sticker Upgrade">
-            <p>Bumper Stickers</p>
-          </div>
-          <div class="upgrade-item">
-            <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps Upgrade">
-            <p>Hub Caps</p>
-          </div>
->>>>>>> 39100257826da5889ee4a12758262d45f4cf319e
-        </div>
+      <!-- Contact Section -->
+      <section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <p>Feel free to reach out to CSE Motors for inquiries or test drives.</p>
+        <p>Email: info@csemotors.com | Phone: 1-800-CSE-MOTORS</p>
       </section>
     </main>
 
-<<<<<<< HEAD
-    <%- include('partials/footer') %>
-=======
-    <footer id="contact">
-      <p>Contact Us at CSE Motors!</p>
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p>&copy; 2025 CSE Motors. All rights reserved.</p>
     </footer>
->>>>>>> 39100257826da5889ee4a12758262d45f4cf319e
   </body>
 </html>
