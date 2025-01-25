@@ -1,15 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
+  <%- include('partials/head') %>
+=======
   <head>
     <%- include('partials/head') %>
   </head>
+>>>>>>> 39100257826da5889ee4a12758262d45f4cf319e
   <body>
     <%- include('partials/header') %>
 
     <main>
+<<<<<<< HEAD
+      <!-- Welcome Section -->
+      <section class="welcome-section">
+        <h1>Welcome to CSE Motors!</h1>
+        <p>Your one-stop shop for classic and futuristic vehicles!</p>
+      </section>
+
+      <!-- Vehicles Gallery -->
+      <section class="gallery-section">
+        <h2>Our Vehicles</h2>
+        <div class="gallery-grid">
+          <% const vehicles = [
+            { name: "Adventador", image: "adventador.jpg" },
+            { name: "Aerocar", image: "aerocar.jpg" },
+            { name: "Batmobile", image: "batmobile.jpg" },
+            { name: "Camaro", image: "camaro.jpg" },
+            { name: "Crown Vic", image: "crwn-vic.jpg" },
+            { name: "Delorean", image: "delorean.jpg" },
+            { name: "Dog Car", image: "dog-car.jpg" },
+            { name: "Escalade", image: "escalade.jpg" },
+            { name: "Fire Truck", image: "fire-truck.jpg" },
+            { name: "Hummer", image: "hummer.jpg" },
+            { name: "Mechanic", image: "mechanic.jpg" },
+            { name: "Model T", image: "model-t.jpg" },
+            { name: "Monster Truck", image: "monster-truck.jpg" },
+            { name: "Mystery Van", image: "mystery-van.jpg" },
+            { name: "Wrangler", image: "wrangler.jpg" },
+          ]; %>
+          <% vehicles.forEach((vehicle) => { %>
+            <div class="vehicle-card">
+              <img src="/images/vehicle/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
+              <h3><%= vehicle.name %></h3>
+            </div>
+          <% }); %>
+=======
       <!-- Navigation Section -->
       <header class="main-header">
-        <h1>Welcome to CSE Motors</h1>
+        <h1>HOME</h1>
         <nav>
           <ul class="nav-links">
             <li><a href="#home">Home</a></li>
@@ -22,15 +61,15 @@
       <!-- Welcome Section -->
       <section id="home" class="welcome-section">
         <div class="welcome-content">
-          <h2>Your One-Stop Automotive Hub!</h2>
+          <h2>Welcome to CSE Motors!</h2>
           <ul class="features-list">
-            <li>✔ 3 Cup Holders</li>
-            <li>✔ Superman Doors</li>
-            <li>✔ Fuzzy Dice!</li>
+            <li>3 Cup holders</li>
+            <li>Superman doors</li>
+            <li>Fuzzy dice!</li>
           </ul>
         </div>
         <div class="welcome-image">
-          <img src="/images/site/icon.png" alt="CSE Motors logo with a futuristic vehicle design">
+          <img src="/images/site/icon.PMG" alt="DMC Delorean with futuristic design and doors open">
         </div>
       </section>
 
@@ -41,17 +80,12 @@
           <% if (vehicles && vehicles.length > 0) { %>
             <% vehicles.forEach(vehicle => { %>
               <div class="vehicle-card">
-                <img 
-                  src="/images/vehicles/<%= vehicle.image %>" 
-                  alt="Image of <%= vehicle.name %>" 
-                  loading="lazy"
-                >
+                <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
                 <h3><%= vehicle.name %></h3>
-                <p><%= vehicle.description || 'Stay tuned for details about this amazing vehicle!' %></p>
               </div>
             <% }); %>
           <% } else { %>
-            <p>No vehicles available at the moment. Please check back later!</p>
+            <p>No vehicles available at the moment. Check back later!</p>
           <% } %>
         </div>
       </section>
@@ -61,29 +95,32 @@
         <h2>Delorean Upgrades</h2>
         <div class="upgrades-grid">
           <div class="upgrade-item">
-            <img src="/images/upgrades/flux-capacitor.png" alt="Image of Flux Capacitor Upgrade" loading="lazy">
+            <img src="/images/upgrades/flux-capacitor.PNG" alt="Flux Capacitor Upgrade">
             <p>Flux Capacitor</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/flame.jpg" alt="Flame Decals Upgrade" loading="lazy">
+            <img src="/images/upgrades/flame.jpg" alt="Flame Decals Upgrade">
             <p>Flame Decals</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers Upgrade" loading="lazy">
+            <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Sticker Upgrade">
             <p>Bumper Stickers</p>
           </div>
           <div class="upgrade-item">
-            <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps Upgrade" loading="lazy">
+            <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps Upgrade">
             <p>Hub Caps</p>
           </div>
+>>>>>>> 39100257826da5889ee4a12758262d45f4cf319e
         </div>
       </section>
     </main>
 
+<<<<<<< HEAD
+    <%- include('partials/footer') %>
+=======
     <footer id="contact">
-      <h2>Contact Us</h2>
-      <p>Email us at <a href="mailto:info@csemotors.com">info@csemotors.com</a> or call us at (555)-CSE-MOTO.</p>
-      <p>Stay connected with CSE Motors for the latest updates!</p>
+      <p>Contact Us at CSE Motors!</p>
     </footer>
+>>>>>>> 39100257826da5889ee4a12758262d45f4cf319e
   </body>
 </html>

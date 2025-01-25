@@ -1,109 +1,58 @@
 // Import required modules
 const express = require('express');
 const path = require('path');
+
+// Initialize the app
 const app = express();
-const PORT = 5500;
+const PORT = process.env.PORT || 10000; // Default to 10000 if environment variable is not set
 
-// Mock utility function for navigation bar
-const utilities = {
-  getNav: async () => [
-    { name: 'Home', link: '/' },
-    { name: 'About', link: '/about' },
-    { name: 'Contact', link: '/contact' },
-  ],
-};
-
-// Mock data for vehicles
-const vehicles = [
-  { name: 'Adventador', image: 'adventador.JPG', description: 'Luxury at its finest.' },
-  { name: 'AeroCar', image: 'aerocar.JPG', description: 'A blend of car and plane!' },
-  { name: 'Batmobile', image: 'batmobile.JPG', description: 'Justice delivered in style.' },
-  { name: 'Camaro', image: 'camaro.JPG', description: 'Muscle and power combined.' },
-  { name: 'Crown Victoria', image: 'crwn-vic.JPG', description: 'Classic style.' },
-  { name: 'Delorean', image: 'delorean.JPG', description: 'Travel back to the future.' },
-  { name: 'Dog Car', image: 'dog-car.JPG', description: 'Quirky and fun transportation.' },
-  { name: 'Escalade', image: 'escalade.JPG', description: 'The essence of luxury SUVs.' },
-  { name: 'Fire Truck', image: 'fire-truck.JPG', description: 'For heroes in action.' },
-  { name: 'Hummer', image: 'hummer.JPG', description: 'Bold and strong.' },
-  { name: 'Mechanic', image: 'mechanic.JPG', description: 'Ready for service.' },
-  { name: 'Model T', image: 'model-t.JPG', description: 'A timeless classic.' },
-  { name: 'Monster Truck', image: 'monster-truck.JPG', description: 'Big wheels for big fun.' },
-  { name: 'Mystery Van', image: 'mystery-van.JPG', description: 'Uncovering secrets on the road.' },
-  { name: 'Survan', image: 'survan.JPG', description: 'Spacious and family-friendly.' },
-  { name: 'Wrangler', image: 'wrangler.JPG', description: 'Off-road adventures await.' },
-];
-
-// Set view engine and views directory
+// Set EJS as the templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middleware to parse JSON requests
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public'))); // To serve static files like images and CSS
+// Middleware to serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Route for Home page
-app.get('/', async (req, res) => {
-  try {
-    // Fetch navigation data
-    const nav = await utilities.getNav();
+// Vehicles Array (Mock Data)
+const vehicles = [
+  { name: 'Adventador', image: 'adventador.jpg' },
+  { name: 'Aerocar', image: 'aerocar.jpg' },
+  { name: 'Batmobile', image: 'batmobile.jpg' },
+  { name: 'Camaro', image: 'camaro.jpg' },
+  { name: 'Crown Vic', image: 'crwn-vic.jpg' },
+  { name: 'Delorean', image: 'delorean.jpg' },
+  { name: 'Dog Car', image: 'dog-car.jpg' },
+  { name: 'Escalade', image: 'escalade.jpg' },
+  { name: 'Fire Truck', image: 'fire-truck.jpg' },
+  { name: 'Hummer', image: 'hummer.jpg' },
+  { name: 'Mechanic', image: 'mechanic.jpg' },
+  { name: 'Model T', image: 'model-t.jpg' },
+  { name: 'Monster Truck', image: 'monster-truck.jpg' },
+  { name: 'Mystery Van', image: 'mystery-van.jpg' },
+  { name: 'Wrangler', image: 'wrangler.jpg' },
+];
 
-    // Render the index.ejs page, passing title, nav, and vehicles data
-    res.render('index', {
-      title: 'Homepage - CSE Motors',
-      nav,
-      vehicles,
-    });
-  } catch (err) {
-    console.error('Error fetching home page data:', err);
-    res.status(500).send('Internal Server Error');
-  }
+// Route handler for the home page
+app.get('/', (req, res) => {
+  res.render('index', { title: 'Home - CSE Motors', vehicles }); // Pass vehicles and dynamic title
 });
 
-// Route for About page
-app.get('/about', async (req, res) => {
-  try {
-    const nav = await utilities.getNav();
-    res.render('about', { title: 'About Us - CSE Motors', nav });
-  } catch (err) {
-    console.error('Error loading about page:', err);
-    res.status(500).send('Internal Server Error');
-  }
+// Route handler for the about page
+app.get('/about', (req, res) => {
+  res.render('about', { title: 'About Us - CSE Motors' });
 });
 
-// Route for Contact page
-app.get('/contact', async (req, res) => {
-  try {
-    const nav = await utilities.getNav();
-    res.render('contact', { title: 'Contact Us - CSE Motors', nav });
-  } catch (err) {
-    console.error('Error loading contact page:', err);
-    res.status(500).send('Internal Server Error');
-  }
+// Route handler for the contact page
+app.get('/contact', (req, res) => {
+  res.render('contact', { title: 'Contact Us - CSE Motors' });
 });
 
-// Catch-all route for handling 404 errors
-app.use((req, res, next) => {
-  const err = { status: 404, message: 'Sorry, we appear to have lost that page.' };
-  next(err);
-});
-
-// Error-handling middleware (must be placed after all routes/middleware)
-app.use(async (err, req, res, next) => {
-  try {
-    const nav = await utilities.getNav();
-    console.error(`Error at "${req.originalUrl}": ${err.message}`);
-    res.status(err.status || 500).render('errors/error', {
-      title: err.status === 404 ? 'Page Not Found' : 'Server Error',
-      message: err.message || 'An unexpected error occurred. Please try again later.',
-      nav,
-    });
-  } catch (err) {
-    console.error('Error handling middleware failed:', err);
-    res.status(500).send('Internal Server Error');
-  }
+// Handle 404 errors (Page not found)
+app.use((req, res) => {
+  res.status(404).render('404', { title: '404 - Page Not Found' });
 });
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
