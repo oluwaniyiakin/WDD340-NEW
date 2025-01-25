@@ -15,7 +15,7 @@
           <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="/vehicles">Vehicles</a></li> <!-- Adjusted link to vehicles route -->
+            <li><a href="#vehicles">Vehicles</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </nav>
@@ -48,13 +48,18 @@
       <section id="vehicles" class="gallery-section">
         <h2>Explore Our Vehicles</h2>
         <div class="gallery-grid">
-          <!-- Dynamically load vehicles data from vehicles.json -->
+          <% const vehicles = [
+            { name: "Adventador", image: "adventador.jpg", price: 75000 },
+            { name: "Aerocar", image: "aerocar.jpg", price: 100000 },
+            { name: "Batmobile", image: "batmobile.jpg", price: 120000 },
+            { name: "Camaro", image: "camaro.jpg", price: 30000 },
+          ]; %>
           <% vehicles.forEach(vehicle => { %>
             <div class="vehicle-card">
-              <img src="/images/<%= vehicle.thumbnail %>" alt="<%= vehicle.name %>" />
+              <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>" />
               <h3><%= vehicle.name %></h3>
               <p>Price: $<%= vehicle.price.toLocaleString() %></p>
-              <a href="/vehicles/<%= vehicle.id %>" class="view-details">View Details</a>
+              <a href="/inventory/detail/<%= vehicle.name.replace(' ', '-') %>" class="view-details">View Details</a>
             </div>
           <% }); %>
         </div>
