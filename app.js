@@ -1,45 +1,29 @@
-// Import required modules
+
+
+module.exports = app;
 const express = require('express');
 const path = require('path');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const helmet = require('helmet');
-const { render404, render500 } = require('./middlewares/errorHandlers');
+const vehiclesRoute = require('./routes/vehicles');
 
-// Initialize Express app
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Use helmet for security
-app.use(helmet());
-
-// Setup middleware
-app.use(morgan('dev')); // Logging
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-// Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Set view engine
+// Set up EJS as the templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Import and mount routes
-const inventoryRoutes = require('./routes/inventoryRoute');
-const mainRoutes = require('./routes/mainRoute');
-app.use('/', mainRoutes);
-app.use('/inventory', inventoryRoutes);
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Catch 404 errors and forward to error handler
-app.use(render404);
+// Use vehicles route
+app.use('/vehicles', vehiclesRoute);
 
-// Error handling middleware
-app.use(render500);
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// Handle 404 errors
+app.use((req, res) => {
+  res.status(404).render('404', { title: '404 - Page Not Found' });
 });
 
-module.exports = app;
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

@@ -1,6 +1,7 @@
 // Import required modules
 const express = require('express');
 const path = require('path');
+const fs = require('fs'); // For reading JSON file
 
 // Initialize the app
 const app = express();
@@ -13,21 +14,27 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware to serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Vehicles Array (Mock Data)
-const vehicles = [
-  { id: 1, name: 'Adventador', image: 'adventador.jpg', year: 2019, price: 75000, mileage: 25000, description: 'High-performance luxury sports car' },
-  { id: 2, name: 'Aerocar', image: 'aerocar.jpg', year: 2021, price: 100000, mileage: 1000, description: 'Futuristic flying car with the latest tech' },
-  { id: 3, name: 'Batmobile', image: 'batmobile.jpg', year: 2018, price: 120000, mileage: 5000, description: 'The ultimate vehicle for crime-fighting and stealth' },
-  { id: 4, name: 'Camaro', image: 'camaro.jpg', year: 2020, price: 30000, mileage: 20000, description: 'Classic muscle car with modern performance' },
-];
+// Utility function to load vehicles from the JSON file
+function loadVehicles() {
+  const filePath = path.join(__dirname, 'Data', 'vehicles.json');
+  try {
+    const data = fs.readFileSync(filePath, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Error loading vehicles.json:', error);
+    return [];
+  }
+}
 
 // Route handler for the home page
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Home - CSE Motors', vehicles }); // Pass vehicles and dynamic title
+  const vehicles = loadVehicles();
+  res.render('index', { title: 'Home - CSE Motors', vehicles }); // Pass vehicles dynamically
 });
 
 // Route handler for the vehicle detail view
 app.get('/inventory/detail/:id', (req, res) => {
+  const vehicles = loadVehicles();
   const vehicleId = parseInt(req.params.id);
   const vehicle = vehicles.find(v => v.id === vehicleId);
 
