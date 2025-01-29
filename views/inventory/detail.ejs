@@ -3,8 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+  <title><%= vehicle.year %> <%= vehicle.name %> | Vehicle Details</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    /* Add responsive styling */
+    .vehicle-detail {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 auto;
+      padding: 1rem;
+      max-width: 1200px;
+      gap: 2rem;
+    }
+
+    .vehicle-images {
+      flex: 1 1 40%;
+      max-width: 40%;
+      text-align: center;
+    }
+
+    .vehicle-images img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .vehicle-thumbnails {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .vehicle-thumbnails img {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .vehicle-thumbnails img:hover {
+      border-color: #007bff;
+    }
+
+    .vehicle-info {
+      flex: 1 1 50%;
+      max-width: 50%;
+    }
+
+    .vehicle-info h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .vehicle-info p {
+      margin: 0.5rem 0;
+    }
+
+    .vehicle-info .price {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    .vehicle-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .vehicle-buttons button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .start-purchase {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .contact-us, .schedule-test-drive, .apply-financing {
+      background-color: #007bff;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .vehicle-detail {
+        flex-direction: column;
+      }
+
+      .vehicle-images, .vehicle-info {
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -14,12 +110,19 @@
 
   <main class="vehicle-detail">
     <div class="vehicle-images">
-      <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
+      <img id="mainImage" src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
+      <div class="vehicle-thumbnails">
+        <% if (vehicle.thumbnails && vehicle.thumbnails.length) { %>
+          <% vehicle.thumbnails.forEach((thumb) => { %>
+            <img src="/images/vehicles/<%= thumb %>" alt="<%= vehicle.name %> thumbnail" onclick="document.getElementById('mainImage').src='/images/vehicles/<%= thumb %>'">
+          <% }) %>
+        <% } %>
+      </div>
     </div>
 
     <div class="vehicle-info">
       <h2><%= vehicle.year %> <%= vehicle.name %></h2>
-      <p><strong>Price:</strong> $<%= vehicle.price.toLocaleString() %></p>
+      <p class="price">$<%= vehicle.price.toLocaleString() %></p>
       <p><strong>Mileage:</strong> <%= vehicle.mileage.toLocaleString() %> miles</p>
       <p><strong>Exterior Color:</strong> <%= vehicle.ext_color %></p>
       <p><strong>Interior Color:</strong> <%= vehicle.int_color %></p>
@@ -27,11 +130,16 @@
       <p><strong>Drivetrain:</strong> <%= vehicle.drivetrain %></p>
       <p><strong>Transmission:</strong> <%= vehicle.transmission %></p>
       <p><strong>Description:</strong> <%= vehicle.description %></p>
+      <p><strong>Stock #:</strong> <%= vehicle.stock %></p>
+      <p><strong>VIN:</strong> <%= vehicle.vin %></p>
+      <p><strong>MPG:</strong> <%= vehicle.mpg %></p>
 
-      <button>Start My Purchase</button>
-      <button>Contact Us</button>
-      <button>Schedule Test Drive</button>
-      <button>Apply for Financing</button>
+      <div class="vehicle-buttons">
+        <button class="start-purchase">Start My Purchase</button>
+        <button class="contact-us">Contact Us</button>
+        <button class="schedule-test-drive">Schedule Test Drive</button>
+        <button class="apply-financing">Apply for Financing</button>
+      </div>
     </div>
   </main>
 
