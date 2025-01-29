@@ -3,6 +3,9 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs'); // For reading JSON file
 
+const session = require("express-session")
+const pool = require('./database/')
+
 // Initialize the app
 const app = express();
 const PORT = process.env.PORT || 10000; // Default to 10000 if environment variable is not set
@@ -10,6 +13,20 @@ const PORT = process.env.PORT || 10000; // Default to 10000 if environment varia
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
 
 // Middleware to serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -67,3 +84,17 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+app.use((req, res) => {
+  res.status(404).render('404', { title: '404 - Page Not Found' });
+});
+
+app.get('/error', (req, res, next) => {
+  throw new Error('This is a test 500 error.');
+});
+
+// Middleware to handle all server errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('500', { title: '500 - Server Error' });
+});
+

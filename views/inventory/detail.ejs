@@ -1,55 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head') %>  <!-- Include head partial -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
   <link rel="stylesheet" href="/css/styles.css">
 </head>
-
 <body>
 
-  <!-- Include the header partial -->
-  <%- include('../partials/header') %>
+  <header>
+    <h1>CSE Motors</h1>
+  </header>
 
-  <main class="vehicle-detail-main">
-    <div class="vehicle-details">
-      <!-- Vehicle Image Section -->
-      <div class="vehicle-image">
-        <img src="<%= vehicle.inv_image ? '/images/vehicles/' + vehicle.inv_image : '/images/placeholder.jpg' %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
-      </div>
-
-      <!-- Vehicle Information Section -->
-      <div class="vehicle-info">
-        <h1><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h1>
-
-        <p><strong>Price:</strong> $<%= new Intl.NumberFormat('en-US').format(vehicle.inv_price) %></p>
-        <p><strong>Mileage:</strong> <%= new Intl.NumberFormat('en-US').format(vehicle.inv_mileage) %> miles</p>
-        <p><strong>Color:</strong> <%= vehicle.inv_color %></p>
-        <p><strong>Fuel Type:</strong> <%= vehicle.inv_fuel %></p>
-        <p><strong>Transmission:</strong> <%= vehicle.inv_transmission %></p>
-        <p><strong>Description:</strong> <%= vehicle.inv_description || 'No description available.' %></p>
-      </div>
+  <main class="vehicle-detail">
+    <div class="vehicle-images">
+      <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
     </div>
 
-    <!-- Related Vehicle Section (optional) -->
-    <section class="related-vehicles">
-      <h2>Related Vehicles</h2>
-      <ul>
-        <% relatedVehicles.forEach(function(relatedVehicle) { %>
-          <li>
-            <a href="/inv/detail/<%= relatedVehicle.inv_id %>">
-              <img src="/images/vehicles/<%= relatedVehicle.inv_thumbnail %>" alt="<%= relatedVehicle.inv_make %> <%= relatedVehicle.inv_model %>">
-              <p><%= relatedVehicle.inv_make %> <%= relatedVehicle.inv_model %></p>
-            </a>
-          </li>
-        <% }); %>
-      </ul>
-    </section>
+    <div class="vehicle-info">
+      <h2><%= vehicle.year %> <%= vehicle.name %></h2>
+      <p><strong>Price:</strong> $<%= vehicle.price.toLocaleString() %></p>
+      <p><strong>Mileage:</strong> <%= vehicle.mileage.toLocaleString() %> miles</p>
+      <p><strong>Exterior Color:</strong> <%= vehicle.ext_color %></p>
+      <p><strong>Interior Color:</strong> <%= vehicle.int_color %></p>
+      <p><strong>Fuel Type:</strong> <%= vehicle.fuel_type %></p>
+      <p><strong>Drivetrain:</strong> <%= vehicle.drivetrain %></p>
+      <p><strong>Transmission:</strong> <%= vehicle.transmission %></p>
+      <p><strong>Description:</strong> <%= vehicle.description %></p>
 
+      <button>Start My Purchase</button>
+      <button>Contact Us</button>
+      <button>Schedule Test Drive</button>
+      <button>Apply for Financing</button>
+    </div>
   </main>
 
-  <!-- Include the footer partial -->
-  <%- include('../partials/footer') %>
+  <footer>
+    <p>&copy; 2025 CSE Motors</p>
+    <a href="/error">Trigger 500 Error</a>
+  </footer>
 
 </body>
 </html>
