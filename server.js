@@ -2,13 +2,12 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); // For reading JSON file
-
-const session = require("express-session")
-const pool = require('./database/')
+const session = require("express-session");
+const pool = require('./database/');
 
 // Initialize the app
 const app = express();
-const PORT = process.env.PORT || 10000; // Default to 10000 if environment variable is not set
+const PORT = process.env.PORT || 10000; // Default to 10000 if not set
 
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
@@ -17,19 +16,18 @@ app.set('views', path.join(__dirname, 'views'));
 /* ***********************
  * Middleware
  * ************************/
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
     pool,
   }),
-  secret: process.env.SESSION_SECRET,
-  resave: true,
+  secret: process.env.SESSION_SECRET || 'yourSecretKeyHere', // Replace with an actual secret
+  resave: false,
   saveUninitialized: true,
   name: 'sessionId',
-}))
-
-// Middleware to serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+}));
 
 // Utility function to load vehicles from the JSON file
 function loadVehicles() {
@@ -49,7 +47,7 @@ app.get('/', (req, res) => {
   res.render('index', { title: 'Home - CSE Motors', vehicles }); // Pass vehicles dynamically
 });
 
-// Route handler for the vehicle detail view
+// Route handler for vehicle details
 app.get('/inventory/detail/:id', (req, res) => {
   const vehicles = loadVehicles();
   const vehicleId = parseInt(req.params.id);
@@ -65,44 +63,36 @@ app.get('/inventory/detail/:id', (req, res) => {
   }
 });
 
-// Route handler for the about page
+// Route handlers for additional pages
 app.get('/about', (req, res) => {
   res.render('about', { title: 'About Us - CSE Motors' });
 });
 
-// Route handler for the contact page
 app.get('/contact', (req, res) => {
   res.render('contact', { title: 'Contact Us - CSE Motors' });
 });
+
+// Simulate a 500 error
+app.get('/error', (req, res, next) => {
+  next(new Error('This is a test 500 error.'));
+});
+
+/* ***********************
+ * Error Handling Middleware
+ * ************************/
 
 // Handle 404 errors (Page not found)
 app.use((req, res) => {
   res.status(404).render('404', { title: '404 - Page Not Found' });
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-app.use((req, res) => {
-  res.status(404).render('404', { title: '404 - Page Not Found' });
-});
-
-app.get('/error', (req, res, next) => {
-  throw new Error('This is a test 500 error.');
-});
-
-// Middleware to handle all server errors
+// Middleware to handle server errors (500)
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).render('500', { title: '500 - Server Error' });
 });
 
-const session = require('express-session');
-
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'yourSecretKeyHere', // Replace with an actual secret
-    resave: false,
-    saveUninitialized: true
-}));
-
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
