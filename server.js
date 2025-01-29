@@ -98,3 +98,11 @@ app.use((err, req, res, next) => {
   res.status(500).render('500', { title: '500 - Server Error' });
 });
 
+const session = require('express-session');
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'yourSecretKeyHere', // Replace with an actual secret
+    resave: false,
+    saveUninitialized: true
+}));
+
