@@ -17,17 +17,18 @@ app.set("views", path.join(__dirname, "views"));
 /* ***********************
  * Middleware
  * ************************/
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));  // Serve static files (CSS, JS, images, etc.)
+app.use(express.json());  // Parse JSON bodies
+app.use(express.urlencoded({ extended: true }));  // Parse URL-encoded bodies
 
+// Session handling with PostgreSQL store
 app.use(
   session({
     store: new (require("connect-pg-simple")(session))({
       createTableIfMissing: true,
-      pool,
+      pool,  // The pool object for database connection
     }),
-    secret: process.env.SESSION_SECRET || "yourSecretKeyHere", // Replace with an actual secret
+    secret: process.env.SESSION_SECRET || "yourSecretKeyHere", // Make sure you use a proper secret
     resave: false,
     saveUninitialized: true,
     name: "sessionId",
@@ -91,8 +92,8 @@ app.use((req, res) => {
   res.status(404).render("errors/404", { title: "404 - Page Not Found" });
 });
 
-// Middleware to handle server errors (500)
-app.use(errorMiddleware);
+// Middleware to handle server errors (500) - should be the last middleware
+app.use(errorMiddleware); // Assuming your custom errorMiddleware properly handles errors
 
 // Start the server
 app.listen(PORT, () => {
