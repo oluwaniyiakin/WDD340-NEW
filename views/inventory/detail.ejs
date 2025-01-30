@@ -1,5 +1,62 @@
-<h1><%= vehicle.name %></h1>
-<img src="<%= vehicle.image %>" alt="<%= vehicle.name %>" />
-<p><strong>Price:</strong> $<%= vehicle.price.toLocaleString() %></p>
-<p><strong>Description:</strong> <%= vehicle.description %></p>
-<a href="/">Back to Home</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>CSE Motors</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="vehicle-detail">
+    <% if (vehicle) { %>
+      <div class="vehicle-images">
+        <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
+      </div>
+
+      <div class="vehicle-info">
+        <h2><%= vehicle.year %> <%= vehicle.name %></h2>
+        <p><strong>Price:</strong> $<%= vehicle.price.toLocaleString() %></p>
+        <p><strong>Mileage:</strong> <%= vehicle.mileage ? vehicle.mileage.toLocaleString() : "N/A" %> miles</p>
+        <p><strong>Exterior Color:</strong> <%= vehicle.ext_color || "Not Specified" %></p>
+        <p><strong>Interior Color:</strong> <%= vehicle.int_color || "Not Specified" %></p>
+        <p><strong>Fuel Type:</strong> <%= vehicle.fuel_type || "Unknown" %></p>
+        <p><strong>Drivetrain:</strong> <%= vehicle.drivetrain || "Not Specified" %></p>
+        <p><strong>Transmission:</strong> <%= vehicle.transmission || "Unknown" %></p>
+        <p><strong>Description:</strong> <%= vehicle.description || "No description available." %></p>
+
+        <div class="vehicle-actions">
+          <button>Start My Purchase</button>
+          <button>Contact Us</button>
+          <button>Schedule Test Drive</button>
+          <button>Apply for Financing</button>
+        </div>
+      </div>
+    <% } else { %>
+      <h2>Vehicle Not Found</h2>
+      <p>The vehicle you are looking for does not exist or may have been removed.</p>
+      <a href="/">Return to Home</a>
+    <% } %>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 CSE Motors</p>
+    <a href="/error">Trigger 500 Error</a>
+  </footer>
+
+</body>
+</html>

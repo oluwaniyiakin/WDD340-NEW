@@ -1,9 +1,8 @@
 // Import required modules
 const express = require('express');
 const path = require('path');
-const fs = require('fs'); // For reading JSON file
 const session = require("express-session");
-const pool = require('./database/');
+const pool = require('./database/'); // Database connection
 
 // Initialize the app
 const app = express();
@@ -29,41 +28,43 @@ app.use(session({
   name: 'sessionId',
 }));
 
-// Utility function to load vehicles from the JSON file
-function loadVehicles() {
-  const filePath = path.join(__dirname, 'Data', 'vehicles.json');
+/* ***********************
+ * Route Handlers
+ * ************************/
+
+// Home Page - Display all vehicles
+app.get('/', async (req, res) => {
   try {
-    const data = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(data);
+    const result = await pool.query('SELECT * FROM vehicles ORDER BY id ASC');
+    res.render('index', { title: 'Home - CSE Motors', vehicles: result.rows });
   } catch (error) {
-    console.error('Error loading vehicles.json:', error);
-    return [];
+    console.error("Database error loading vehicles:", error);
+    res.status(500).render('500', { title: '500 - Server Error' });
   }
-}
-
-// Route handler for the home page
-app.get('/', (req, res) => {
-  const vehicles = loadVehicles();
-  res.render('index', { title: 'Home - CSE Motors', vehicles }); // Pass vehicles dynamically
 });
 
-// Route handler for vehicle details
-app.get('/inventory/detail/:id', (req, res) => {
-  const vehicles = loadVehicles();
+// Vehicle Details - Display a single vehicle
+app.get('/inventory/detail/:id', async (req, res) => {
   const vehicleId = parseInt(req.params.id);
-  const vehicle = vehicles.find(v => v.id === vehicleId);
 
-  if (vehicle) {
-    res.render('inventory/detail', {
-      title: `${vehicle.name} - CSE Motors`,
-      vehicle,
-    });
-  } else {
-    res.status(404).render('404', { title: '404 - Vehicle Not Found' });
+  try {
+    const result = await pool.query('SELECT * FROM vehicles WHERE id = $1', [vehicleId]);
+    
+    if (result.rows.length > 0) {
+      res.render('inventory/detail', { 
+        title: `${result.rows[0].name} - CSE Motors`, 
+        vehicle: result.rows[0] 
+      });
+    } else {
+      res.status(404).render('404', { title: '404 - Vehicle Not Found' });
+    }
+  } catch (error) {
+    console.error("Error fetching vehicle details:", error);
+    res.status(500).render('500', { title: '500 - Server Error' });
   }
 });
 
-// Route handlers for additional pages
+// Additional Pages
 app.get('/about', (req, res) => {
   res.render('about', { title: 'About Us - CSE Motors' });
 });
