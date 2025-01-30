@@ -23,26 +23,28 @@
   <!-- Main Content -->
   <main class="vehicle-detail">
     <% if (vehicle) { %>
-      <div class="vehicle-images">
-        <img src="/images/vehicles/<%= vehicle.image %>" alt="<%= vehicle.name %>">
-      </div>
+      <div class="vehicle-container">
+        <!-- Vehicle Image -->
+        <div class="vehicle-images">
+          <img src="/images/vehicles/<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+        </div>
 
-      <div class="vehicle-info">
-        <h2><%= vehicle.year %> <%= vehicle.name %></h2>
-        <p><strong>Price:</strong> $<%= vehicle.price.toLocaleString() %></p>
-        <p><strong>Mileage:</strong> <%= vehicle.mileage ? vehicle.mileage.toLocaleString() : "N/A" %> miles</p>
-        <p><strong>Exterior Color:</strong> <%= vehicle.ext_color || "Not Specified" %></p>
-        <p><strong>Interior Color:</strong> <%= vehicle.int_color || "Not Specified" %></p>
-        <p><strong>Fuel Type:</strong> <%= vehicle.fuel_type || "Unknown" %></p>
-        <p><strong>Drivetrain:</strong> <%= vehicle.drivetrain || "Not Specified" %></p>
-        <p><strong>Transmission:</strong> <%= vehicle.transmission || "Unknown" %></p>
-        <p><strong>Description:</strong> <%= vehicle.description || "No description available." %></p>
+        <!-- Vehicle Information -->
+        <div class="vehicle-info">
+          <h2><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+          <p><strong>Price:</strong> $<%= new Intl.NumberFormat("en-US").format(vehicle.inv_price) %></p>
+          <p><strong>Mileage:</strong> <%= vehicle.inv_mileage ? vehicle.inv_mileage.toLocaleString() : "N/A" %> miles</p>
+          <p><strong>Color:</strong> <%= vehicle.inv_color || "Not Specified" %></p>
+          <p><strong>Fuel Type:</strong> <%= vehicle.inv_fueltype || "Unknown" %></p>
+          <p><strong>Transmission:</strong> <%= vehicle.inv_transmission || "Unknown" %></p>
+          <p><strong>Description:</strong> <%= vehicle.inv_description || "No description available." %></p>
 
-        <div class="vehicle-actions">
-          <button>Start My Purchase</button>
-          <button>Contact Us</button>
-          <button>Schedule Test Drive</button>
-          <button>Apply for Financing</button>
+          <div class="vehicle-actions">
+            <button>Start My Purchase</button>
+            <button>Contact Us</button>
+            <button>Schedule Test Drive</button>
+            <button>Apply for Financing</button>
+          </div>
         </div>
       </div>
     <% } else { %>
@@ -51,6 +53,24 @@
       <a href="/">Return to Home</a>
     <% } %>
   </main>
+
+  <!-- Sidebar: Explore Our Vehicles -->
+  <aside class="explore-vehicles">
+    <h2>Explore Our Vehicles</h2>
+    <ul>
+      <% if (vehicles && vehicles.length > 0) { %>
+        <% vehicles.forEach(car => { %>
+          <li>
+            <a href="/inventory/detail/<%= car.inv_id %>">
+              <%= car.inv_make %> <%= car.inv_model %> - $<%= new Intl.NumberFormat("en-US").format(car.inv_price) %>
+            </a>
+          </li>
+        <% }) %>
+      <% } else { %>
+        <li>No other vehicles available.</li>
+      <% } %>
+    </ul>
+  </aside>
 
   <!-- Footer -->
   <footer>
