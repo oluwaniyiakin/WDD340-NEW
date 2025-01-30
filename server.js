@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const session = require("express-session");
 const pool = require("./database/"); // Database connection
-const errorRoutes = require("./routes/errorRoutes"); // Custom error route
+const errorRoutes = require("./routes/errorRoute"); // Custom error route
 const errorMiddleware = require("./utilities/errorMiddleware"); // Error handling middleware
 
 // Initialize the app
