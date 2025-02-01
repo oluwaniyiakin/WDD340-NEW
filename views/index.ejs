@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+
     <!-- Header Section -->
     <header class="main-header">
         <div class="header-content">
@@ -21,6 +22,11 @@
             </nav>
         </div>
     </header>
+
+    <!-- Flash Messages -->
+    <div class="messages">
+        <%- messages() %>
+    </div>
 
     <!-- Main Content -->
     <main>
@@ -51,7 +57,8 @@
                 <div class="gallery-grid">
                     <% vehicles.forEach(vehicle => { %>
                         <div class="vehicle-card">
-                            <img src="/images/vehicles/<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>" />
+                            <img src="/images/vehicles/<%= vehicle.inv_image %>" 
+                                 alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
                             <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
                             <p>Price: $<%= new Intl.NumberFormat("en-US").format(vehicle.inv_price) %></p>
                             <a href="/inventory/detail/<%= vehicle.inv_id %>" class="view-details">View Details</a>
@@ -73,7 +80,8 @@
 
     <!-- Footer -->
     <footer class="main-footer">
-        <p>&copy; 2025 CSE Motors. All rights reserved.</p>
+        <p>&copy; 2025 CSE Motors. Oluwaniyi Akin Oladapo . All rights reserved.</p>
     </footer>
+
 </body>
 </html>
