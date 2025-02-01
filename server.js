@@ -7,6 +7,7 @@ const pool = require("./database/"); // Database connection
 const flash = require("connect-flash");
 const messages = require("express-messages");
 const errorMiddleware = require("./utilities/errorMiddleware"); // Error handling middleware
+const bcrypt = require('bcryptjs');
 
 // Import Routes
 const accountRoutes = require("./routes/accountRoute");
