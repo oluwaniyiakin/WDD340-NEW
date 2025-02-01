@@ -1,0 +1,242 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  background-color: #eef2f3;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Header */
+header {
+  background-color: #004466;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.5rem;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+nav a:hover {
+  background-color: #006680;
+}
+
+/* Welcome Section */
+.welcome-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  background-color: #ffffff;
+  margin: 1rem;
+  border: 4px solid #ccc;
+}
+
+.welcome-content {
+  max-width: 50%;
+}
+
+.welcome-content h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #004466;
+}
+
+.welcome-content .highlight {
+  font-size: 1.5rem;
+  color: #007acc;
+  margin-bottom: 1rem;
+}
+
+.features-list {
+  margin-bottom: 1.5rem;
+}
+
+.features-list li {
+  margin-bottom: 0.5rem;
+}
+
+.cta-button {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #005a99;
+}
+
+.welcome-image {
+  max-width: 45%;
+  text-align: center;
+}
+
+/* Reviews Section */
+.reviews-section {
+  background-color: #ffffff;
+  padding: 2rem;
+  margin: 1rem;
+  border: 4px solid #ccc;
+}
+
+.reviews-section h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: #004466;
+}
+
+.reviews-list li {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Upgrades Section */
+.upgrades-section {
+  background-color: #ffffff;
+  padding: 2rem;
+  margin: 1rem;
+  border: 4px solid #ccc;
+}
+
+.upgrades-section h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: #004466;
+}
+
+.upgrades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.upgrade-item {
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.upgrade-item img {
+  margin-bottom: 0.5rem;
+}
+
+.upgrade-item p {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #004466;
+  color: white;
+  margin-top: 1rem;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .welcome-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .welcome-content {
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .welcome-image {
+    max-width: 100%;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 769px) {
+  .welcome-section {
+    padding: 2.5rem;
+    margin: 2rem;
+  }
+
+  .reviews-section,
+  .upgrades-section {
+    margin: 2rem;
+  }
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #333;
+  color: #fff;
+  padding: 1em 0;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+header nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.welcome-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 2em;
+}

@@ -1,0 +1,141 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Header */
+.main-header {
+  background-color: #222;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.main-header .nav-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.main-header .nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease-in-out;
+}
+
+.main-header .nav-links a:hover {
+  color: #ffd700;
+}
+
+/* Vehicle Detail Page */
+.vehicle-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px;
+  max-width: 1100px;
+  margin: 20px auto;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+/* Vehicle Image Section */
+.vehicle-images img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+  display: block;
+}
+
+/* Vehicle Info Section */
+.vehicle-info {
+  flex: 1;
+  padding: 20px;
+}
+
+.vehicle-info h2 {
+  font-size: 26px;
+  color: #222;
+  margin-bottom: 15px;
+}
+
+.vehicle-info p {
+  font-size: 18px;
+  color: #555;
+  margin: 8px 0;
+}
+
+/* Button Styling */
+.vehicle-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.vehicle-actions button {
+  flex: 1;
+  min-width: 150px;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.vehicle-actions button:hover {
+  background-color: #0056b3;
+}
+
+/* Footer */
+.main-footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #222;
+  color: white;
+  margin-top: 30px;
+}
+
+.main-footer a {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+.main-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vehicle-detail {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .vehicle-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .vehicle-actions button {
+    width: 100%;
+  }
+}
