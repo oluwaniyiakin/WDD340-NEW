@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to CSE Motors</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="header-content">
+            <h1>CSE Motors</h1>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/inventory">Vehicles</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    <div class="messages">
+        <%- messages() %>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Welcome Section -->
+        <section id="home" class="welcome-section">
+            <div class="welcome-content">
+                <h2>Welcome to CSE Motors!</h2>
+                <p>Your one-stop shop for classic and futuristic vehicles. Explore our range today!</p>
+            </div>
+            <div class="welcome-image">
+                <img src="/images/site/icon.png" alt="Welcome to CSE Motors" />
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <h2>About Us</h2>
+            <p>
+                At CSE Motors, we specialize in delivering classic and futuristic vehicles
+                to meet all your automotive needs. Check out our upgrades and features!
+            </p>
+        </section>
+
+        <!-- Vehicles Gallery -->
+        <section id="vehicles" class="gallery-section">
+            <h2>Explore Our Vehicles</h2>
+            <% if (vehicles && vehicles.length > 0) { %>
+                <div class="gallery-grid">
+                    <% vehicles.forEach(vehicle => { %>
+                        <div class="vehicle-card">
+                            <img src="/images/vehicles/<%= vehicle.inv_image %>" 
+                                 alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+                            <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
+                            <p>Price: $<%= new Intl.NumberFormat("en-US").format(vehicle.inv_price) %></p>
+                            <a href="/inventory/detail/<%= vehicle.inv_id %>" class="view-details">View Details</a>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <p>No vehicles available at the moment.</p>
+            <% } %>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <h2>Contact Us</h2>
+            <p>Feel free to reach out to CSE Motors for inquiries or test drives.</p>
+            <p>Email: info@csemotors.com | Phone: 1-800-CSE-MOTORS</p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2025 CSE Motors. Oluwaniyi Akin Oladapo . All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

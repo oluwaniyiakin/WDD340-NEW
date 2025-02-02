@@ -1,0 +1,62 @@
+const express = require('express');
+const path = require('path');
+
+const app = express();
+const PORT = 5500;
+
+// Mock utility function for navigation bar
+const utilities = {
+    getNav: async () => "<nav><a href='/'>Home</a> | <a href='/about'>About</a></nav>"
+};
+
+// Set view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Middleware to parse JSON requests
+app.use(express.json());
+
+// Sample route
+app.get('/', (req, res) => {
+    res.send('<h1>Welcome to the Homepage!</h1>');
+});
+
+app.get('/about', (req, res) => {
+    res.send('<h1>About Us</h1>');
+});
+
+// Catch-all 404 route (must be the last route in the route section)
+app.use(async (req, res, next) => {
+    next({ status: 404, message: 'Sorry, we appear to have lost that page.' });
+});
+
+// Error-handling middleware (must be placed after all routes/middleware)
+app.use(async (err, req, res, next) => {
+    const nav = await utilities.getNav();
+    console.error(`Error at "${req.originalUrl}": ${err.message}`);
+    res.status(err.status || 500).render('errors/error', {
+        title: err.status || 'Server Error',
+        message: err.message,
+        nav,
+    });
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <main>
+        <h1><%= message %></h1>
+        <p>An unexpected error occurred. Please try again later.</p>
+    </main>
+</body>
+</html>
