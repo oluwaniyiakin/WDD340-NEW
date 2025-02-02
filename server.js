@@ -24,8 +24,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // Parsing form data
 
 // Set EJS as the templating engine
+app.set("views", path.join(__dirname, "src", "views"));
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+
 
 // Session Middleware
 app.use(session({
