@@ -1,11 +1,11 @@
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const router = express.Router();
+const vehicleController = require("../controllers/vehicleController");
 
-const vehiclesFilePath = path.join(__dirname, '../Data/vehicles.json');
+// Route to get all vehicles
+router.get("/", vehicleController.getAllVehicles);
 
-function getVehicleById(id) {
-  const vehiclesData = JSON.parse(fs.readFileSync(vehiclesFilePath, 'utf8'));
-  return vehiclesData.find(vehicle => vehicle.id === parseInt(id));
-}
+// Route to get a vehicle by ID
+router.get("/:id", vehicleController.getVehicleById);
 
-module.exports = { getVehicleById };
+module.exports = router;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to CSE Motors</title>
+    <title><%= title || "Welcome to CSE Motors" %></title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -24,9 +24,12 @@
     </header>
 
     <!-- Flash Messages -->
-    <div class="messages">
-        <%- messages() %>
-    </div>
+    <% if (messages().trim() !== '') { %>
+        <div class="messages alert">
+            <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <%- messages() %>
+        </div>
+    <% } %>
 
     <!-- Main Content -->
     <main>
@@ -37,7 +40,7 @@
                 <p>Your one-stop shop for classic and futuristic vehicles. Explore our range today!</p>
             </div>
             <div class="welcome-image">
-                <img src="/images/site/icon.png" alt="Welcome to CSE Motors" />
+                <img src="/images/site/icon.png" alt="Welcome to CSE Motors">
             </div>
         </section>
 
@@ -53,12 +56,13 @@
         <!-- Vehicles Gallery -->
         <section id="vehicles" class="gallery-section">
             <h2>Explore Our Vehicles</h2>
-            <% if (vehicles && vehicles.length > 0) { %>
+            <% if (Array.isArray(vehicles) && vehicles.length > 0) { %>
                 <div class="gallery-grid">
                     <% vehicles.forEach(vehicle => { %>
                         <div class="vehicle-card">
-                            <img src="/images/vehicles/<%= vehicle.inv_image %>" 
-                                 alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+                            <img src="<%= vehicle.inv_image && vehicle.inv_image.startsWith('/') ? vehicle.inv_image : '/images/vehicles/' + vehicle.inv_image %>" 
+                                 alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>" 
+                                 onerror="this.onerror=null; this.src='/images/site/default-car.png';">
                             <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
                             <p>Price: $<%= new Intl.NumberFormat("en-US").format(vehicle.inv_price) %></p>
                             <a href="/inventory/detail/<%= vehicle.inv_id %>" class="view-details">View Details</a>
@@ -66,7 +70,7 @@
                     <% }); %>
                 </div>
             <% } else { %>
-                <p>No vehicles available at the moment.</p>
+                <p class="no-vehicles">No vehicles available at the moment.</p>
             <% } %>
         </section>
 
@@ -74,13 +78,13 @@
         <section id="contact" class="contact-section">
             <h2>Contact Us</h2>
             <p>Feel free to reach out to CSE Motors for inquiries or test drives.</p>
-            <p>Email: info@csemotors.com | Phone: 1-800-CSE-MOTORS</p>
+            <p>Email: <a href="mailto:info@csemotors.com">info@csemotors.com</a> | Phone: <a href="tel:1800CSEMOTORS">1-800-CSE-MOTORS</a></p>
         </section>
     </main>
 
     <!-- Footer -->
     <footer class="main-footer">
-        <p>&copy; 2025 CSE Motors. Oluwaniyi Akin Oladapo . All rights reserved.</p>
+        <p>&copy; 2025 CSE Motors. Oluwaniyi Akin Oladapo. All rights reserved.</p>
     </footer>
 
 </body>
