@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %> <!-- Include reusable head content -->
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+  <header>
+    <%- include('../partials/header') %> <!-- Include reusable header -->
+  </header>
+  <nav>
+    <%- nav %> <!-- Dynamic navigation -->
+  </nav>
+  <main>
+    <!-- Content Heading -->
+    <% if (title) { %>
+      <h1><%= title %></h1>
+    <% } else { %>
+      <script>window.location.href = '/';</script> <!-- Redirect if no title -->
+    <% } %>
+
+    <!-- Message Block -->
+    <div id="message">
+      <%# messages() %> <!-- Placeholder for future messages -->
+    </div>
+
+    <!-- Inventory Items Display -->
+    <section id="inventory">
+      <%- grid %> <!-- Dynamic grid content -->
+    </section>
+  </main>
+  <footer>
+    <%- include('../partials/footer') %> <!-- Include reusable footer -->
+  </footer>
+</body>
+</html>
