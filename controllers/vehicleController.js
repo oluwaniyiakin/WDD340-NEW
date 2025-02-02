@@ -16,7 +16,7 @@ exports.getVehicleById = async (req, res) => {
         if (!vehicle) {
             return res.status(404).render("errors/404", { title: "Vehicle Not Found" });
         }
-        res.render("vehicles/detail", { title: `${vehicle.make} ${vehicle.model}`, vehicle });
+        res.render("vehicles/detail", { title: `${vehicle.inv_make} ${vehicle.inv_model}`, vehicle });
     } catch (error) {
         console.error("Error fetching vehicle:", error);
         res.status(500).render("errors/500", { title: "Server Error", message: error.message });
