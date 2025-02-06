@@ -1,6 +1,6 @@
 const express = require("express"); 
 const router = express.Router();
-const invController = require("../controllers/inventoryController");
+const invController = require("../controllers/invController");
 
 // Inventory Management View
 router.get("/", invController.showManagementView);

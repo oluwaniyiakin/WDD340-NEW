@@ -13,6 +13,8 @@ const accountRoutes = require("./routes/accountRoute");
 const errorRoutes = require("./routes/errorRoute");
 const inventoryRoutes = require("./routes/inventoryRoute"); // Ensuring inventory routes are included
 
+
+
 // Initialize the app
 const app = express();
 const PORT = process.env.PORT || 10000;
