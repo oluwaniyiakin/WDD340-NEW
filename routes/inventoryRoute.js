@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express"); 
 const router = express.Router();
 const invController = require("../controllers/inventoryController");
 
@@ -6,16 +6,11 @@ const invController = require("../controllers/inventoryController");
 router.get("/", invController.showManagementView);
 
 // Classification Routes
-router
-    .route("/add-classification")
-    .get(invController.buildAddClassification)
-    .post(invController.addClassification);
+router.get("/add-classification", invController.buildAddClassification);
+router.post("/add-classification", invController.addClassification);
 
 // Inventory Routes
-router
-    .route("/add-inventory")
-    .get(invController.buildAddInventory)
-    .post(invController.addInventory);
+router.get("/add-inventory", invController.buildAddInventory);
+router.post("/add-inventory", invController.addInventory);
 
 module.exports = router;
-

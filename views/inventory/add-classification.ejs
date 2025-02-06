@@ -3,9 +3,10 @@
 <% if (messages.notice) { %>
     <p class="message"><%= messages.notice %></p>
 <% } %>
-<form action="/inv/add-classification" method="POST">
+<form action="/inventory/add-classification" method="POST">
     <label for="classification_name">Classification Name:</label>
-    <input type="text" id="classification_name" name="classification_name" required pattern="^[a-zA-Z0-9]+$" title="No spaces or special characters allowed">
-    <button type="submit">Add Classification</button>
+    <input type="text" id="classification_name" name="classification_name" required>
+    <button type="submit">Add</button>
 </form>
+<%- include('../partials/footer') %>
 <%- include('../partials/footer.ejs') %>

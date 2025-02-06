@@ -2,60 +2,62 @@
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
-const bodyParser = require("body-parser");
-const pool = require("./database/"); // Database connection
 const flash = require("connect-flash");
 const messages = require("express-messages");
+const bcrypt = require("bcryptjs");
+const pool = require("./database/"); // Database connection
 const errorMiddleware = require("./utilities/errorMiddleware"); // Error handling middleware
-const bcrypt = require('bcryptjs');
 
 // Import Routes
 const accountRoutes = require("./routes/accountRoute");
 const errorRoutes = require("./routes/errorRoute");
+const inventoryRoutes = require("./routes/inventoryRoute"); // Ensuring inventory routes are included
 
 // Initialize the app
 const app = express();
-const PORT = process.env.PORT || 10000; // Default to 10000 if not set
+const PORT = process.env.PORT || 10000;
 
 /* ***********************
  * Middleware
  * ************************/
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); // Parsing form data
+
+// Session Middleware
+app.use(
+  session({
+    store: new (require("connect-pg-simple")(session))({
+      createTableIfMissing: true, // Auto-create session table
+      pool, // Use PostgreSQL database connection
+    }),
+    secret: process.env.SESSION_SECRET || "yourSecretKeyHere", // Secure key
+    resave: false,
+    saveUninitialized: true,
+    name: "sessionId", // Custom session cookie name
+    cookie: { secure: false }, // Set to true if using HTTPS
+  })
+);
+
+// Flash Messages Middleware
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.messages = req.flash(); // Correct way to initialize express-messages
+  next();
+});
 
 // Set EJS as the templating engine
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-
-// Session Middleware
-app.use(session({
-  store: new (require("connect-pg-simple")(session))({
-    createTableIfMissing: true, // Auto-create session table
-    pool, // Use PostgreSQL database connection
-  }),
-  secret: process.env.SESSION_SECRET || "yourSecretKeyHere", // Secure key
-  resave: false,
-  saveUninitialized: true,
-  name: "sessionId", // Custom session cookie name
-}));
-
+// Middleware to parse incoming requests
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-
-// Express Messages Middleware
-app.use(flash());
-app.use((req, res, next) => {
-  res.locals.messages = messages(req, res);
-  next();
-});
 
 /* ***********************
  * Route Handlers
  * ************************/
 app.use("/account", accountRoutes); // Account Routes
 app.use("/error", errorRoutes); // Custom Error Routes
+app.use("/inv", inventoryRoutes); // Added missing inventory routes
 
 // Home Page - Display all vehicles
 app.get("/", async (req, res) => {
@@ -106,5 +108,5 @@ app.use(errorMiddleware);
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
