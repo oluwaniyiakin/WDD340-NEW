@@ -24,7 +24,7 @@
     </header>
 
     <!-- Flash Messages -->
-    <% if (messages().trim() !== '') { %>
+    <% if (messages && Object.keys(messages).length > 0) { %>
         <div class="messages alert">
             <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
             <%- messages() %>
