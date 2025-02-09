@@ -1,47 +1,65 @@
 // Import required modules
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 const messages = require("express-messages");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const pool = require("./database/"); // Database connection
 const errorMiddleware = require("./utilities/errorMiddleware"); // Error handling middleware
+const utilities = require("./utilities");
 
 // Import Routes
 const accountRoutes = require("./routes/accountRoute");
 const errorRoutes = require("./routes/errorRoute");
-const inventoryRoutes = require("./routes/inventoryRoute"); // Ensuring inventory routes are included
-
-
+const inventoryRoutes = require("./routes/inventoryRoute");
 
 // Initialize the app
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-/* ***********************
- * Middleware
- * ************************/
+// Ensure JWT Secret is defined
+if (!process.env.JWT_SECRET) {
+  console.error("❌ ERROR: Missing JWT_SECRET in environment variables.");
+  process.exit(1);
+}
+console.log("✅ JWT Secret Loaded");
 
-// Session Middleware
+// Middleware to check JWT tokens
+app.use((req, res, next) => {
+  try {
+    const token = req.cookies?.jwt || req.headers.authorization?.split(" ")[1];
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded; // Attach decoded user info
+    }
+  } catch (error) {
+    console.warn("⚠️ JWT Verification Failed:", error.message);
+  }
+  next();
+});
+
+// Middleware Setup
+app.use(cookieParser());
 app.use(
   session({
     store: new (require("connect-pg-simple")(session))({
-      createTableIfMissing: true, // Auto-create session table
-      pool, // Use PostgreSQL database connection
+      createTableIfMissing: true,
+      pool,
     }),
-    secret: process.env.SESSION_SECRET || "yourSecretKeyHere", // Secure key
+    secret: process.env.SESSION_SECRET || "yourSecretKeyHere",
     resave: false,
     saveUninitialized: true,
-    name: "sessionId", // Custom session cookie name
-    cookie: { secure: false }, // Set to true if using HTTPS
+    name: "sessionId",
+    cookie: { secure: false }, // Set to true in production
   })
 );
-
-// Flash Messages Middleware
 app.use(flash());
 app.use((req, res, next) => {
-  res.locals.messages = req.flash(); // Correct way to initialize express-messages
+  res.locals.messages = req.flash();
   next();
 });
 
@@ -49,66 +67,49 @@ app.use((req, res, next) => {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// Middleware to parse incoming requests
-app.use(express.static(path.join(__dirname, "public"))); // Serve static files
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+// Middleware for parsing requests
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-/* ***********************
- * Route Handlers
- * ************************/
-app.use("/account", accountRoutes); // Account Routes
-app.use("/error", errorRoutes); // Custom Error Routes
-app.use("/inv", inventoryRoutes); // Added missing inventory routes
+// Routes
+app.use("/account", accountRoutes);
+app.use("/error", errorRoutes);
+app.use("/inv", inventoryRoutes);
 
-// Home Page - Display all vehicles
 app.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM vehicles ORDER BY id ASC");
-    res.render("index", { title: "Home - CSE Motors", vehicles: result.rows });
+    res.render("index", { title: "Home - CSE Motors", vehicles: result.rows, user: req.user || null });
   } catch (error) {
-    console.error("Database error loading vehicles:", error);
+    console.error("❌ Database Error:", error);
     res.status(500).render("errors/500", { title: "500 - Server Error", message: error.message });
   }
 });
 
-// Vehicle Details - Display a single vehicle
+// Vehicle Details Route
 app.get("/inventory/detail/:id", async (req, res) => {
   const vehicleId = parseInt(req.params.id);
   try {
     const result = await pool.query("SELECT * FROM vehicles WHERE id = $1", [vehicleId]);
     if (result.rows.length > 0) {
-      res.render("inventory/detail", { title: `${result.rows[0].name} - CSE Motors`, vehicle: result.rows[0] });
+      res.render("inventory/detail", { title: `${result.rows[0].name} - CSE Motors`, vehicle: result.rows[0], user: req.user || null });
     } else {
       res.status(404).render("errors/404", { title: "404 - Vehicle Not Found" });
     }
   } catch (error) {
-    console.error("Error fetching vehicle details:", error);
+    console.error("❌ Error Fetching Vehicle Details:", error);
     res.status(500).render("errors/500", { title: "500 - Server Error", message: error.message });
   }
 });
 
 // Additional Pages
-app.get("/about", (req, res) => {
-  res.render("about", { title: "About Us - CSE Motors" });
-});
+app.get("/about", (req, res) => res.render("about", { title: "About Us - CSE Motors" }));
+app.get("/contact", (req, res) => res.render("contact", { title: "Contact Us - CSE Motors" }));
 
-app.get("/contact", (req, res) => {
-  res.render("contact", { title: "Contact Us - CSE Motors" });
-});
-
-/* ***********************
- * Error Handling
- * ************************/
-// Handle 404 errors (Page not found)
-app.use((req, res) => {
-  res.status(404).render("errors/404", { title: "404 - Page Not Found" });
-});
-
-// Middleware to handle server errors (500)
+// Error Handling
+app.use((req, res) => res.status(404).render("errors/404", { title: "404 - Page Not Found" }));
 app.use(errorMiddleware);
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));

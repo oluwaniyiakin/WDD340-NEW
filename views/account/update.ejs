@@ -1,0 +1,26 @@
+<h1>Update Account</h1>
+
+<form action="/account/update" method="post">
+    <input type="hidden" name="account_id" value="<%= locals.account.account_id %>">
+
+    <label for="first_name">First Name:</label>
+    <input type="text" name="first_name" value="<%= locals.account.first_name %>" required>
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" name="last_name" value="<%= locals.account.last_name %>" required>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" value="<%= locals.account.email %>" required>
+
+    <button type="submit">Update Info</button>
+</form>
+
+<h2>Change Password</h2>
+<form action="/account/update-password" method="post">
+    <input type="hidden" name="account_id" value="<%= locals.account.account_id %>">
+
+    <label for="password">New Password:</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">Change Password</button>
+</form>

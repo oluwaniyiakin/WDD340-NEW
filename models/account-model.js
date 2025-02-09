@@ -1,5 +1,25 @@
 const pool = require("../database/")
 
+exports.getAccountById = async (id) => {
+  const [rows] = await pool.query("SELECT * FROM accounts WHERE account_id = ?", [id]);
+  return rows[0];
+};
+
+exports.updateAccount = async (id, first_name, last_name, email) => {
+  const [result] = await pool.query(
+      "UPDATE accounts SET first_name = ?, last_name = ?, email = ? WHERE account_id = ?",
+      [first_name, last_name, email, id]
+  );
+  return result.affectedRows > 0;
+};
+
+exports.updatePassword = async (id, hashedPassword) => {
+  const [result] = await pool.query(
+      "UPDATE accounts SET password = ? WHERE account_id = ?",
+      [hashedPassword, id]
+  );
+  return result.affectedRows > 0;
+};
 /* *****************************
 *   Register new account
 * *************************** */
@@ -28,5 +48,22 @@ async function checkExistingEmail(account_email) {
     // Other existing functions...
   };
     
+/* *****************************
+ * Return account data using email address
+ * ***************************** */
+async function getAccountByEmail(account_email) {
+  try {
+    const result = await pool.query(
+      "SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1",
+      [account_email]
+    );
+    return result.rows[0];
+  } catch (error) {
+    return new Error("No matching email found");
+  }
+}
 
-module.exports = { registerAccount }
+module.exports = { getAccountByEmail };
+
+
+

@@ -1,11 +1,22 @@
 <header>
     <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About Us</a></li>
-        <li><a href="/vehicles">Vehicles</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
+     <ul>
+  <% if (!locals.accountData) { %>
+    <li><a href="/account/login">My Account</a></li>
+  <% } else { %>
+    <li><a href="/account/manage">Welcome <%= locals.accountData.firstname %></a></li>
+    <li><a href="/account/logout">Logout</a></li>
+  <% } %>
+</ul>
+
     </nav>
   </header>
+  <ul>
+    <% if (!locals.accountData) { %>
+      <li><a href="/account/login">My Account</a></li>
+    <% } else { %>
+      <li><a href="/account/manage">Welcome <%= locals.accountData.firstname %></a></li>
+      <li><a href="/account/logout">Logout</a></li>
+    <% } %>
+  </ul>
   

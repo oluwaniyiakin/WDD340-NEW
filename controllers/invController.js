@@ -1,13 +1,18 @@
 const utilities = require("../utilities");
 const invModel = require("../models/inventory-model");
 
-// Show Inventory Management View
+/* ****************************************
+ * Show Inventory Management View
+ * **************************************** */
 async function showManagementView(req, res) {
     try {
         let nav = await utilities.getNav();
+        let classificationSelect = await utilities.buildClassificationList();
+
         res.render("inventory/management", {
             title: "Inventory Management",
             nav,
+            classificationSelect,
             messages: req.flash(),
         });
     } catch (error) {
@@ -16,7 +21,9 @@ async function showManagementView(req, res) {
     }
 }
 
-// Build Add Classification Page
+/* ****************************************
+ * Build Add Classification Page
+ * **************************************** */
 async function buildAddClassification(req, res) {
     try {
         let nav = await utilities.getNav();
@@ -31,7 +38,9 @@ async function buildAddClassification(req, res) {
     }
 }
 
-// Add Classification (Post Request)
+/* ****************************************
+ * Add Classification (POST)
+ * **************************************** */
 async function addClassification(req, res) {
     try {
         let nav = await utilities.getNav();
@@ -57,7 +66,28 @@ async function addClassification(req, res) {
     }
 }
 
-// Build Add Inventory Page
+/* ****************************************
+ * Return Inventory by Classification As JSON
+ * **************************************** */
+async function getInventoryJSON(req, res, next) {
+    try {
+        const classification_id = parseInt(req.params.classification_id);
+        const invData = await invModel.getInventoryByClassificationId(classification_id);
+
+        if (invData.length > 0) {
+            return res.json(invData);
+        } else {
+            return res.status(404).json({ message: "No inventory found for this classification" });
+        }
+    } catch (error) {
+        console.error("Error fetching inventory JSON:", error);
+        next(error);
+    }
+}
+
+/* ****************************************
+ * Build Add Inventory Page
+ * **************************************** */
 async function buildAddInventory(req, res) {
     try {
         let nav = await utilities.getNav();
@@ -74,7 +104,9 @@ async function buildAddInventory(req, res) {
     }
 }
 
-// Add Inventory (Post Request)
+/* ****************************************
+ * Add Inventory (POST)
+ * **************************************** */
 async function addInventory(req, res) {
     try {
         let nav = await utilities.getNav();
@@ -100,7 +132,9 @@ async function addInventory(req, res) {
     }
 }
 
-// Get Vehicle by ID (Detail Page)
+/* ****************************************
+ * Get Vehicle by ID (Detail Page)
+ * **************************************** */
 async function getVehicleById(req, res) {
     try {
         const vehicleId = req.params.id;
@@ -124,12 +158,80 @@ async function getVehicleById(req, res) {
     }
 }
 
-// Export all functions
+/* ***************************
+ *  Build Edit Inventory View
+ * ************************** */
+async function editInventoryView(req, res, next) {
+    try {
+        const inv_id = parseInt(req.params.inv_id);
+        let nav = await utilities.getNav();
+
+        // Get item data from the database
+        const itemData = await invModel.getInventoryById(inv_id);
+
+        if (!itemData) {
+            req.flash("error", "Vehicle not found.");
+            return res.redirect("/inventory");
+        }
+
+        // Build classification dropdown with pre-selected value
+        const classificationSelect = await utilities.buildClassificationList(itemData.classification_id);
+        const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+
+        res.render("./inventory/edit-inventory", {
+            title: "Edit " + itemName,
+            nav,
+            classificationSelect,
+            errors: null,
+            ...itemData, // Spread all itemData properties
+        });
+    } catch (error) {
+        console.error("Error loading edit inventory page:", error);
+        res.status(500).render("error", { message: "Internal Server Error" });
+    }
+}
+
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+async function updateInventory(req, res, next) {
+    try {
+        let nav = await utilities.getNav();
+        const { inv_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id } = req.body;
+
+        const updateResult = await invModel.updateInventory(inv_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id);
+
+        if (updateResult) {
+            req.flash("notice", `The ${inv_make} ${inv_model} was successfully updated.`);
+            res.redirect("/inventory/");
+        } else {
+            const classificationSelect = await utilities.buildClassificationList(classification_id);
+            req.flash("notice", "Sorry, the update failed.");
+            res.status(501).render("inventory/edit-inventory", {
+                title: "Edit " + inv_make + " " + inv_model,
+                nav,
+                classificationSelect,
+                errors: null,
+                inv_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id
+            });
+        }
+    } catch (error) {
+        console.error("Error updating inventory:", error);
+        res.status(500).render("error", { message: "Internal Server Error" });
+    }
+}
+
+/* ****************************************
+ * Export all functions
+ * **************************************** */
 module.exports = {
     showManagementView,
     buildAddClassification,
     addClassification,
+    getInventoryJSON,
     buildAddInventory,
     addInventory,
-    getVehicleById
+    getVehicleById,
+    editInventoryView,
+    updateInventory, // Now correct
 };

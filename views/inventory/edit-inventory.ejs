@@ -1,0 +1,38 @@
+<%- include('../partials/header.ejs') %>
+
+<h1>Edit Vehicle</h1>
+
+<% if (messages.notice) { %>
+    <p class="message"><%= messages.notice %></p>
+<% } %>
+
+<form id="updateForm" action="/inventory/update" method="post">
+    <!-- Hidden field for inv_id -->
+    <input type="hidden" name="inv_id" value="<%= inv_id %>">
+
+    <label for="inv_make">Make:</label>
+    <input type="text" id="inv_make" name="inv_make" value="<%= inv_make %>" required>
+
+    <label for="inv_model">Model:</label>
+    <input type="text" id="inv_model" name="inv_model" value="<%= inv_model %>" required>
+
+    <label for="inv_price">Price:</label>
+    <input type="number" id="inv_price" name="inv_price" value="<%= inv_price %>" required>
+
+    <label for="inv_classification_id">Classification:</label>
+    <select id="inv_classification_id" name="inv_classification_id" required>
+        <% classifications.forEach(classification => { %>
+            <option value="<%= classification.classification_id %>" 
+                <% if (classification.classification_id === inv_classification_id) { %> selected <% } %>>
+                <%= classification.classification_name %>
+            </option>
+        <% }); %>
+    </select>
+
+    <button type="submit" disabled>Update Vehicle</button>
+</form>
+
+<!-- JavaScript for enabling the submit button when a change is detected -->
+<script src="/js/inv-update.js"></script>
+
+<%- include('../partials/footer.ejs') %>

@@ -5,3 +5,15 @@
 <title><%= title || "Default Title" %></title>
 <link rel="icon" href="/images/site/favicon-32x32.png" type="image/png">
 <link rel="stylesheet" href="/css/style.css">
+<%- include('./partials/header.ejs') %>
+<nav>
+    <ul>
+        <% if (locals.account) { %>
+            <li>Welcome, <%= locals.account.first_name %></li>
+            <li><a href="/account/manage">Account Management</a></li>
+            <li><a href="/account/logout">Logout</a></li>
+        <% } else { %>
+            <li><a href="/account/login">My Account</a></li>
+        <% } %>
+    </ul>
+</nav>

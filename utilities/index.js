@@ -1,6 +1,9 @@
 // Define the Util object
 const Util = {};
 
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 // Build the classification view HTML
 Util.buildClassificationGrid = async function (data) {
   let grid = ""; // Initialize grid to an empty string
@@ -85,5 +88,53 @@ Util.buildVehicleDetailView = function (vehicle) {
     </div>
   `;
 };
+
+/* ****************************************
+ * Middleware to check token validity
+ **************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(req.cookies.jwt, process.env.ACCESS_TOKEN_SECRET, (err, accountData) => {
+      if (err) {
+        req.flash("notice", "Please log in");
+        res.clearCookie("jwt");
+        return res.redirect("/account/login");
+      }
+      res.locals.accountData = accountData;
+      res.locals.loggedin = 1;
+      next();
+    });
+  } else {
+    next();
+  }
+};
+
+
+
+
+
+// Middleware to check JWT token
+Util.checkAuth = (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.locals.loggedin = true;
+    res.locals.user = decoded; // Store user info for use in views
+    next();
+  } catch (error) {
+    console.error("JWT Verification Error:", error);
+    req.flash("notice", "Invalid session, please log in again.");
+    res.clearCookie("jwt");
+    res.redirect("/account/login");
+  }
+};
+
+module.exports = Util;
 
 module.exports = Util;
