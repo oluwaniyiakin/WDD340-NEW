@@ -162,6 +162,27 @@ function logout(req, res) {
   res.redirect("/");
 }
 
+exports.logout = (req, res) => {
+  try {
+      // Destroy session if using session-based auth
+      req.session.destroy((err) => {
+          if (err) {
+              console.error("Session destruction error:", err);
+              return res.status(500).send("Logout failed.");
+          }
+      });
+
+      // Clear the JWT cookie
+      res.clearCookie("jwt"); // Ensure cookie-parser is used in `server.js`
+      
+      res.redirect("/"); // Redirect to home page after logout
+  } catch (error) {
+      console.error("Logout error:", error);
+      res.status(500).send("Server error during logout.");
+  }
+};
+
+
 /* ****************************************
  *  Export Controllers
  * *************************************** */

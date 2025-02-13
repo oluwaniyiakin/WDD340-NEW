@@ -59,5 +59,11 @@ async function updateInventory(inv_id, inv_make, inv_model, inv_description, inv
         console.error("model error: " + error);
     }
 }
+async function deleteVehicleById(vehicleId) {
+    const query = "DELETE FROM inventory WHERE inv_id = $1";
+    return await pool.query(query, [vehicleId]);
+}
+
+module.exports = { deleteVehicleById };
 
 module.exports = { getVehicleById, addClassification, addVehicle };

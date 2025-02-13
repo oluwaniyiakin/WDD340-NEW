@@ -3,8 +3,9 @@ const router = express.Router();
 const utilities = require("../utilities");
 const accountController = require("../controllers/accountController");
 const regValidate = require("../utilities/account-validation");
+const authMiddleware = require("../middleware/authMiddleware");
 
-// Routes for authentication and account management
+// Authentication & Account Management Routes
 router.get("/login", accountController.buildLogin); // Login View
 router.get("/register", accountController.buildRegister); // Registration View
 
@@ -24,25 +25,25 @@ router.post(
   utilities.handleErrors(accountController.registerAccount)
 );
 
-// Logout
-router.get("/logout", accountController.logout);
+// Logout (Clears JWT & Session)
+router.get("/logout", authMiddleware.ensureAuthenticated, accountController.logout);
 
-// Routes for account updates (Ensure user is authenticated)
-router.get("/update/:id", utilities.checkAuth, accountController.getUpdateView);
+// Account Management Routes (Protected)
+router.get("/update/:id", authMiddleware.ensureAuthenticated, accountController.getUpdateView);
 router.post(
   "/update",
-  utilities.checkAuth,
-  regValidate.checkRegData, // Use existing validation function or create a new one for updates
+  authMiddleware.ensureAuthenticated,
+  regValidate.checkRegData,
   utilities.handleErrors(accountController.updateAccount)
 );
 router.post(
   "/update-password",
-  utilities.checkAuth,
-  regValidate.checkLoginData, // Use existing validation function or create one for password update
+  authMiddleware.ensureAuthenticated,
+  regValidate.checkLoginData,
   utilities.handleErrors(accountController.updatePassword)
 );
 
-// Account management dashboard (protected route)
-router.get("/", utilities.checkAuth, accountController.buildManagement);
+// Account Management Dashboard (Protected)
+router.get("/", authMiddleware.ensureAuthenticated, accountController.buildManagement);
 
 module.exports = router;

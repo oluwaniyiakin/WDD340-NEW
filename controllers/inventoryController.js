@@ -180,7 +180,6 @@ async function updateInventory(req, res) {
         res.status(500).render("error", { message: "Internal Server Error" });
     }
 }
-
 async function deleteVehicle(req, res, next) {
     try {
         const vehicleId = req.params.id;
