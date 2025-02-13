@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const invController = require("../controllers/inventoryController"); // Ensure correct import
+const invController = require("../controllers/inventoryController");
 const utilities = require("../utilities");
 const invValidate = require("../utilities/inventory-validation");
 const { authenticateToken, authorizeAdmin } = require("../middleware/authMiddleware");
 
-// 🔹 Inventory Management Routes
+console.log("Inventory Controller Keys:", Object.keys(invController)); // Debugging line
+
+// 🔹 Inventory Management
 router.get("/manage", authenticateToken, authorizeAdmin, utilities.handleErrors(invController.showManagementView));
 
 // 🔹 Classification Routes
